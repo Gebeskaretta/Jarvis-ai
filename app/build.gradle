@@ -2,6 +2,15 @@ plugins {
     id 'com.android.application'
 }
 
+File keystoreFile = file("${rootDir}/debug.keystore")
+File keystoreB64 = file("${rootDir}/debug.keystore.base64")
+if (!keystoreFile.exists() && keystoreB64.exists()) {
+    try {
+        byte[] decoded = java.util.Base64.getDecoder().decode(keystoreB64.text.replaceAll("\\s+", ""))
+        keystoreFile.withOutputStream { it.write(decoded) }
+    } catch (Exception ignored) {}
+}
+
 android {
     namespace 'com.mico.jarvis'
     compileSdk 34
@@ -16,16 +25,20 @@ android {
 
     signingConfigs {
         debugConfig {
-            storeFile file("${rootDir}/debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
+            if (keystoreFile.exists()) {
+                storeFile keystoreFile
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
+            }
         }
     }
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.debugConfig
+            if (keystoreFile.exists()) {
+                signingConfig signingConfigs.debugConfig
+            }
         }
     }
 
