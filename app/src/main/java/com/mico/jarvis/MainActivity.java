@@ -16,7 +16,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.view.View;
+import android.speech.tts.Voice;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
@@ -30,6 +30,7 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Set;
 
 public class MainActivity extends Activity {
     private WebView webView;
@@ -136,8 +137,33 @@ public class MainActivity extends Activity {
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                     tts.setLanguage(Locale.getDefault());
                 }
-                tts.setPitch(0.9f);
-                tts.setSpeechRate(1.02f);
+
+                // Explicitly look for masculine voice in Turkish
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Set<Voice> voices = tts.getVoices();
+                        if (voices != null) {
+                            Voice bestMaleVoice = null;
+                            for (Voice v : voices) {
+                                String name = v.getName().toLowerCase();
+                                String lang = v.getLocale() != null ? v.getLocale().getLanguage().toLowerCase() : "";
+                                if (lang.equals("tr") || name.contains("tr") || name.contains("tur")) {
+                                    if (name.contains("male") || name.contains("erkek") || name.contains("dfz") || name.contains("ama")) {
+                                        bestMaleVoice = v;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (bestMaleVoice != null) {
+                                tts.setVoice(bestMaleVoice);
+                            }
+                        }
+                    }
+                } catch (Throwable ignored) {}
+
+                // Deep, masculine, resonant Jarvis tone
+                tts.setPitch(0.78f);
+                tts.setSpeechRate(0.97f);
                 ttsReady = true;
 
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
