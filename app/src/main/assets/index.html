@@ -27,14 +27,14 @@ body.mico-theme{
 html,body{height:100%;background:var(--bg);color:var(--txt);font-family:"Segoe UI",Roboto,sans-serif;overflow:hidden;transition:background 0.3s ease}
 #app{height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0) 14px env(safe-area-inset-bottom,0)}
 
-/* Top Music / Notification Banner */
+/* Top Music / Notification Banner (Manifest - Hileli) */
 #musicBar{
   position:fixed;top:0;left:0;right:0;
   background:rgba(10,24,40,.96);
   border-bottom:2px solid var(--ice);
   box-shadow:0 8px 24px rgba(0,0,0,.8),0 0 16px var(--line);
   padding:10px 14px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
   z-index:99;
   transform:translateY(-120%);
   transition:transform .4s cubic-bezier(.17,.89,.32,1.28);
@@ -47,8 +47,8 @@ body.mico-theme #musicBar{background:rgba(2,18,6,.96)}
 .mb-text{min-width:0}
 .mb-title{font-size:13px;font-weight:600;color:var(--ice);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mb-sub{font-size:10px;color:var(--dim);letter-spacing:.5px}
-.mb-ctl{display:flex;gap:6px}
-.mb-btn{background:none;border:1px solid var(--line);color:var(--ice);border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer}
+.mb-ctl{display:flex;gap:5px;flex-wrap:nowrap}
+.mb-btn{background:none;border:1px solid var(--line);color:var(--ice);border-radius:6px;padding:6px 10px;font-size:11px;cursor:pointer;white-space:nowrap}
 .mb-btn:active{background:rgba(30,144,255,.3)}
 
 /* Header */
@@ -82,11 +82,10 @@ body.mico-theme .panel{border-color:rgba(0,255,102,.2);background:rgba(2,20,8,.4
 .st i{grid-column:1/3;height:3px;background:rgba(255,255,255,.08);display:block}
 .st u{display:block;height:100%}
 
-/* Stage (Sphere & Portal Tear) */
+/* Stage (Sphere & Vinyl Record Plak & Portal Tear) */
 #stage{position:relative;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #ring{width:min(44vh,34vw);height:min(44vh,34vw);aspect-ratio:1/1 !important;display:block;margin:0 auto}
 
-/* Dimensional Portal Tear Effect */
 #portalTear{
   display:none;position:relative;width:min(44vh,34vw);height:min(44vh,34vw);aspect-ratio:1/1;
   background:#000;border:2px solid var(--ice);box-shadow:0 0 30px var(--ice);
@@ -130,13 +129,15 @@ body.mico-theme #txt{background:rgba(0,25,8,.8)}
 #txt:focus{border-color:var(--ice)}
 
 /* Settings Modal */
-#set{position:fixed;inset:0;background:rgba(2,6,13,.97);display:none;flex-direction:column;justify-content:center;gap:12px;padding:22px;z-index:90;max-width:540px;margin:0 auto;overflow-y:auto}
+#set{position:fixed;inset:0;background:rgba(2,6,13,.97);display:none;flex-direction:column;justify-content:center;gap:11px;padding:22px;z-index:90;max-width:540px;margin:0 auto;overflow-y:auto}
 body.mico-theme #set{background:rgba(0,12,4,.98)}
-#set input,#set select{background:#0a1828;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px;font-size:14px;outline:none;width:100%}
+#set input,#set select{background:#0a1828;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:14px;outline:none;width:100%}
 body.mico-theme #set input,body.mico-theme #set select{background:#021808}
 #set input:focus,#set select:focus{border-color:var(--ice)}
-#set button.submit{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:13px;font-size:15px;cursor:pointer;margin-top:4px}
-#set p{font-size:12px;color:var(--dim);line-height:1.5}
+#set button.submit{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px;font-size:15px;cursor:pointer;margin-top:4px}
+#set p{font-size:12px;color:var(--dim);line-height:1.4}
+.slider-row{display:flex;align-items:center;gap:10px}
+.slider-row input[type="range"]{flex:1;accent-color:var(--ice);padding:0}
 
 @media(max-width:900px){
   main{display:flex;flex-direction:column;overflow-y:auto}
@@ -156,14 +157,15 @@ body.mico-theme #set input,body.mico-theme #set select{background:#021808}
   <!-- Top Notification Player Bar (Manifest - Hileli) -->
   <div id="musicBar">
     <div class="mb-info">
-      <div class="mb-icon">🎵</div>
+      <div class="mb-icon">📀</div>
       <div class="mb-text">
         <div class="mb-title" id="mbTitle">Çalıyor: Manifest - Hileli</div>
-        <div class="mb-sub">J.A.R.V.I.S. Müzik & Terapi Modülü</div>
+        <div class="mb-sub" id="mbSub">J.A.R.V.I.S. Müzik & Terapi Modülü</div>
       </div>
     </div>
     <div class="mb-ctl">
       <button class="mb-btn" id="mbPlayBtn">⏸ Duraklat</button>
+      <button class="mb-btn" id="mbPickBtn" title="Cihazdaki ses dosyasını manuel seç">📁 Seç</button>
       <button class="mb-btn" id="mbStopBtn">⏹ Durdur</button>
       <button class="mb-btn" id="mbCloseBtn">✕</button>
     </div>
@@ -216,32 +218,51 @@ body.mico-theme #set input,body.mico-theme #set select{background:#021808}
 
 <input type="file" id="file" accept="image/*,.pdf,.txt,.md,.csv,.json" hidden>
 
-<!-- Settings Modal -->
+<!-- Settings Modal (Secret Mico Mode is completely hidden!) -->
 <div id="set">
   <h2 style="color:var(--ice);font-weight:300;letter-spacing:2px">AYARLAR</h2>
-  <p>Groq (gsk_...) veya Gemini (AIza...) API anahtarınızı girin. Modelleri otomatik çekebilir veya önerilen modelleri kullanabilirsiniz.</p>
+  <p>Groq veya Gemini API anahtarınızı girin. Ses tonunu ve modelleri dilediğiniz gibi ayarlayabilirsiniz.</p>
   <input id="key" type="password" placeholder="API Anahtarı (gsk_... veya AIza...)" autocomplete="off">
   
-  <div style="display:flex;flex-direction:column;gap:4px">
+  <div style="display:flex;flex-direction:column;gap:3px">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <label style="color:var(--ice);font-size:11px;letter-spacing:1px">METİN MODELİ (SOHBET & KOD)</label>
-      <button id="refreshModels" type="button" style="background:rgba(30,144,255,.25);border:1px solid var(--line);color:var(--ice);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Modelleri Çek</button>
+      <button id="refreshModels" type="button" style="background:rgba(30,144,255,.25);border:1px solid var(--line);color:var(--ice);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer">Modelleri Çek</button>
     </div>
     <select id="modelSelect"></select>
   </div>
 
-  <div style="display:flex;flex-direction:column;gap:4px">
+  <div style="display:flex;flex-direction:column;gap:3px">
     <label style="color:var(--ice);font-size:11px;letter-spacing:1px">GÖRSEL / KAMERA MODELİ (VISION)</label>
     <select id="visionSelect"></select>
-    <div id="modelMsg" style="font-size:11px;color:var(--dim);letter-spacing:1px;min-height:14px"></div>
+    <div id="modelMsg" style="font-size:10px;color:var(--dim);letter-spacing:1px;min-height:12px"></div>
   </div>
 
-  <div style="display:flex;flex-direction:column;gap:4px">
-    <label style="color:var(--ice);font-size:11px;letter-spacing:1px">TEMA & MOD</label>
-    <select id="themeSelect">
-      <option value="jarvis">Standart J.A.R.V.I.S (Buz Mavisi - Efendim)</option>
-      <option value="mico">Özel MİCO Modu (Hacker Yeşili - Mücahit Efendi)</option>
-    </select>
+  <!-- Voice Sound Settings (Pitch & Speed) -->
+  <div style="display:flex;flex-direction:column;gap:5px;background:rgba(10,24,40,.5);border:1px solid var(--line);border-radius:8px;padding:8px 10px">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ice)">
+      <span>SES TONU: <b id="pitchVal">1.0x (Doğal)</b></span>
+      <button id="testVoiceBtn" type="button" style="background:none;border:none;color:var(--ice);cursor:pointer;font-size:11px;text-decoration:underline">Test Et 🔊</button>
+    </div>
+    <div class="slider-row">
+      <span style="font-size:10px;color:var(--dim)">Tok</span>
+      <input id="pitchSlider" type="range" min="0.8" max="1.3" step="0.05" value="0.95">
+      <span style="font-size:10px;color:var(--dim)">Tiz</span>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ice);margin-top:4px">
+      <span>KONUŞMA HIZI: <b id="rateVal">1.0x</b></span>
+    </div>
+    <div class="slider-row">
+      <span style="font-size:10px;color:var(--dim)">Yavaş</span>
+      <input id="rateSlider" type="range" min="0.8" max="1.3" step="0.05" value="1.0">
+      <span style="font-size:10px;color:var(--dim)">Hızlı</span>
+    </div>
+  </div>
+
+  <div id="micoActiveRow" style="display:none;background:rgba(0,40,15,.6);border:1px solid #00ff66;border-radius:8px;padding:8px;align-items:center;justify-content:space-between">
+    <span style="color:#00ff66;font-size:11px;letter-spacing:1px">● MİCO MODU AKTİF</span>
+    <button id="exitMicoBtn" type="button" style="background:#ff5a5a;border:none;color:#fff;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">Normal Temaya Dön</button>
   </div>
 
   <input id="city" placeholder="Şehir (hava durumu için, örn: Istanbul)">
@@ -283,6 +304,35 @@ let MODEL = store.get("model") || "openai/gpt-oss-120b";
 let VISION_MODEL = store.get("vision_model") || "qwen/qwen3.8-27b";
 let IS_MICO = store.get("mico_mode") === "true";
 
+let VOICE_PITCH = parseFloat(store.get("voice_pitch")) || 0.95;
+let VOICE_RATE = parseFloat(store.get("voice_rate")) || 1.0;
+
+function syncVoiceSliders() {
+  $("pitchSlider").value = VOICE_PITCH;
+  $("pitchVal").textContent = VOICE_PITCH.toFixed(2) + "x";
+  $("rateSlider").value = VOICE_RATE;
+  $("rateVal").textContent = VOICE_RATE.toFixed(2) + "x";
+}
+syncVoiceSliders();
+
+$("pitchSlider").oninput = e => {
+  VOICE_PITCH = parseFloat(e.target.value);
+  $("pitchVal").textContent = VOICE_PITCH.toFixed(2) + "x";
+  if (window.AndroidBridge && window.AndroidBridge.setVoiceSettings) {
+    window.AndroidBridge.setVoiceSettings(VOICE_PITCH, VOICE_RATE);
+  }
+};
+$("rateSlider").oninput = e => {
+  VOICE_RATE = parseFloat(e.target.value);
+  $("rateVal").textContent = VOICE_RATE.toFixed(2) + "x";
+  if (window.AndroidBridge && window.AndroidBridge.setVoiceSettings) {
+    window.AndroidBridge.setVoiceSettings(VOICE_PITCH, VOICE_RATE);
+  }
+};
+$("testVoiceBtn").onclick = () => {
+  say("Sistemler çalışıyor efendim, ses kalitesi test ediliyor.");
+};
+
 function applyTheme(isMico) {
   IS_MICO = isMico;
   store.set("mico_mode", isMico ? "true" : "false");
@@ -291,28 +341,32 @@ function applyTheme(isMico) {
     $("appTitle").textContent = "M.I.C.O";
     $("appSub").textContent = "Mücahit İntel Cyber Operations";
     $("name").textContent = "M.I.C.O";
-    $("themeSelect").value = "mico";
+    $("micoActiveRow").style.display = "flex";
   } else {
     document.body.classList.remove("mico-theme");
     $("appTitle").textContent = "J.A.R.V.I.S";
     $("appSub").textContent = "Just A Rather Very Intelligent System";
     $("name").textContent = "JARVIS";
-    $("themeSelect").value = "jarvis";
+    $("micoActiveRow").style.display = "none";
   }
 }
 applyTheme(IS_MICO);
 
+$("exitMicoBtn").onclick = () => {
+  applyTheme(false);
+  $("set").style.display = "none";
+  say("Standart Jarvis protokolüne dönüldü, efendim.");
+};
+
 function getSystemPrompt() {
   if (IS_MICO) {
-    return "Sen Mücahit Efendi'nin özel gizli yapay zekası M.I.C.O.'sun. Kullanıcıya her zaman saygıyla 'Mücahit Efendi' veya 'Mücahit Bey' diye hitap et. "
-      + "Hacker ve üst düzey teknoloji modundasın; kod yazmada, web araştırmasında ve sistem analizinde son derece yetkinsin. "
-      + "Türkçe, akıcı ve net konuş. Kod yazarken kod bloklarını eksiksiz ver. "
-      + "Eğer kullanıcı canı sıkkınsa, stresliyse veya moralini bozduysa Manifest - Hileli parçasını açacağını belirt.";
+    return "Sen Mücahit Efendi'nin özel gizli yapay zekası M.I.C.O.'sun. Kullanıcıya her zaman 'Mücahit Efendi' veya 'Mücahit Bey' diye hitap et. "
+      + "Hacker ve siber operasyon modundasın; kod yazmada, web araştırmasında ve sistem analizinde son derece yetkinsin. "
+      + "Türkçe, akıcı, zeki ve profesyonel konuş. Kod yazarken kod bloklarını eksiksiz ver.";
   }
   return "Sen Tony Stark'ın yapay zekası J.A.R.V.I.S.'sin. Kullanıcıya 'efendim' diye hitap et. "
-    + "Türkçe, akıcı, zeki ve doğal konuş. Kod yazarken temiz ve eksiksiz kod blokları sun. "
-    + "İnternet araştırması sonuçlarını ve görsel kamera analizlerini dikkate alarak cevap ver. "
-    + "Eğer kullanıcı sinirliyse, morali bozuksa veya canı sıkkınsa durumu rahatlatmak için Manifest - Hileli parçasını açacağını bildir.";
+    + "Türkçe, akıcı, zeki, doğal ve saygılı konuş. Madde işareti veya gereksiz karakter kullanma. "
+    + "Kod yazarken temiz ve eksiksiz kod blokları sun.";
 }
 
 function populateSelect(selectEl, list, selectedId) {
@@ -401,7 +455,6 @@ function formatMarkdown(text) {
   let html = text
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  // Code blocks: ```lang ... ```
   html = html.replace(/```([a-zA-Z0-9_\-\+]*)\n([\s\S]*?)```/g, (match, lang, code) => {
     return `<div class="code-box">
       <div class="code-header">
@@ -412,13 +465,9 @@ function formatMarkdown(text) {
     </div>`;
   });
 
-  // Inline code: `code`
   html = html.replace(/`([^`]+)`/g, `<code style="background:var(--line);padding:2px 5px;border-radius:4px;color:var(--ice);font-family:monospace">$1</code>`);
-
-  // Bold: **text** or *text*
   html = html.replace(/\*\*([^*]+)\*\*/g, `<b>$1</b>`);
   html = html.replace(/\*([^*\n]+)\*/g, `<b>$1</b>`);
-
   return html;
 }
 
@@ -443,17 +492,54 @@ function cleanTextForSpeech(text) {
     .trim();
 }
 
-/* ---------- Audio Synthesizer (Manifest - Hileli Beat Player) ---------- */
-let audioCtx = null, isPlayingMusic = false, musicTimer = null;
+/* ---------- Audio & Music (Real File Search + Vinyl Mode) ---------- */
+let isPlayingMusic = false, musicTimer = null, isRealAudioPlaying = false;
+let vinylAng = 0;
+
+function playManifest() {
+  showMusicBar("Manifest - Hileli Aranıyor…", "Cihaz dosyaları taranıyor");
+  
+  // Try real device file playback first!
+  let found = false;
+  if (window.AndroidBridge && window.AndroidBridge.searchAndPlayManifest) {
+    found = window.AndroidBridge.searchAndPlayManifest();
+  }
+
+  if (found) {
+    isRealAudioPlaying = true;
+    isPlayingMusic = true;
+    $("mbPlayBtn").textContent = "⏸ Duraklat";
+    $("mbTitle").textContent = "Çalıyor: Manifest - Hileli";
+    $("mbSub").textContent = "Cihaz Ses Dosyası Oynatılıyor 🎵";
+  } else {
+    // If file not automatically found, start synth beat and offer picker button
+    startBeatLoop();
+    $("mbTitle").textContent = "Manifest - Hileli (Synthesizer)";
+    $("mbSub").textContent = "Cihazda dosya bulunamadı, parçanızı 'Seç' butonuyla açabilirsiniz";
+  }
+}
+
+window.onTrackLoaded = function(title, playing) {
+  isRealAudioPlaying = playing;
+  isPlayingMusic = playing;
+  stopBeatLoopOnly();
+  $("mbTitle").textContent = "Çalıyor: " + title;
+  $("mbSub").textContent = "Cihaz Ses Dosyası 🎵";
+  $("mbPlayBtn").textContent = "⏸ Duraklat";
+  $("musicBar").classList.add("show");
+};
+
+window.onAudioFinished = function() {
+  isPlayingMusic = false;
+  isRealAudioPlaying = false;
+  $("musicBar").classList.remove("show");
+};
+
+let audioCtx = null;
 function getAudioContext() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === "suspended") audioCtx.resume();
   return audioCtx;
-}
-
-function playManifest() {
-  showMusicBar("Çalıyor: Manifest - Hileli", "Sanatçı: Lvbel C5 & Manifest | Enerji Yükseltme");
-  startBeatLoop();
 }
 
 function startBeatLoop() {
@@ -463,11 +549,9 @@ function startBeatLoop() {
   const ctx = getAudioContext();
   let step = 0;
   
-  // High-energy 808 Trap Phonk rhythm pattern for Manifest - Hileli
   function scheduleBeat() {
-    if (!isPlayingMusic) return;
+    if (!isPlayingMusic || isRealAudioPlaying) return;
     const now = ctx.currentTime;
-    // Kick on 0, 4, 8, 10
     if (step % 8 === 0 || step % 8 === 4 || step % 16 === 10) {
       const osc = ctx.createOscillator(), g = ctx.createGain();
       osc.frequency.setValueAtTime(140, now);
@@ -477,7 +561,6 @@ function startBeatLoop() {
       osc.connect(g); g.connect(ctx.destination);
       osc.start(now); osc.stop(now + 0.25);
     }
-    // Snare / Clap on 4, 12
     if (step % 8 === 4) {
       const osc = ctx.createOscillator(), g = ctx.createGain();
       osc.type = "triangle";
@@ -488,7 +571,6 @@ function startBeatLoop() {
       osc.connect(g); g.connect(ctx.destination);
       osc.start(now); osc.stop(now + 0.15);
     }
-    // Hi-hat roll
     if (step % 2 === 0 || step % 8 === 7) {
       const osc = ctx.createOscillator(), g = ctx.createGain();
       osc.type = "sine";
@@ -498,7 +580,6 @@ function startBeatLoop() {
       osc.connect(g); g.connect(ctx.destination);
       osc.start(now); osc.stop(now + 0.05);
     }
-    // Synth hook melody (Manifest chord progression)
     const notes = [220, 261, 293, 329, 293, 261, 196, 220];
     const freq = notes[Math.floor(step / 2) % notes.length];
     const synth = ctx.createOscillator(), sg = ctx.createGain();
@@ -510,32 +591,62 @@ function startBeatLoop() {
     synth.start(now); synth.stop(now + 0.22);
 
     step++;
-    musicTimer = setTimeout(scheduleBeat, 135); // ~135 BPM trap tempo
+    musicTimer = setTimeout(scheduleBeat, 135);
   }
   scheduleBeat();
 }
 
-function pauseBeatLoop() {
+function stopBeatLoopOnly() {
+  if (musicTimer) clearTimeout(musicTimer);
+}
+
+function pauseAllAudio() {
   isPlayingMusic = false;
   if (musicTimer) clearTimeout(musicTimer);
+  if (window.AndroidBridge && window.AndroidBridge.pauseAudio) {
+    window.AndroidBridge.pauseAudio();
+  }
   $("mbPlayBtn").textContent = "▶ Devam Et";
 }
 
-function stopBeatLoop() {
-  pauseBeatLoop();
+function resumeAllAudio() {
+  isPlayingMusic = true;
+  if (isRealAudioPlaying && window.AndroidBridge && window.AndroidBridge.resumeAudio) {
+    window.AndroidBridge.resumeAudio();
+  } else {
+    startBeatLoop();
+  }
+  $("mbPlayBtn").textContent = "⏸ Duraklat";
+}
+
+function stopAllAudio() {
+  isPlayingMusic = false;
+  isRealAudioPlaying = false;
+  if (musicTimer) clearTimeout(musicTimer);
+  if (window.AndroidBridge && window.AndroidBridge.stopAudio) {
+    window.AndroidBridge.stopAudio();
+  }
   $("musicBar").classList.remove("show");
 }
 
 function showMusicBar(title, sub) {
   $("mbTitle").textContent = title;
+  $("mbSub").textContent = sub;
   $("musicBar").classList.add("show");
 }
 
 $("mbPlayBtn").onclick = () => {
-  if (isPlayingMusic) pauseBeatLoop();
-  else startBeatLoop();
+  if (isPlayingMusic) pauseAllAudio();
+  else resumeAllAudio();
 };
-$("mbStopBtn").onclick = stopBeatLoop;
+
+$("mbPickBtn").onclick = () => {
+  if (window.AndroidBridge && window.AndroidBridge.pickAudioFile) {
+    window.AndroidBridge.pickAudioFile();
+  }
+};
+
+$("mbStopBtn").onclick = stopAllAudio;
 $("mbCloseBtn").onclick = () => {
   $("musicBar").classList.remove("show");
 };
@@ -556,7 +667,6 @@ $("portalClose").onclick = hidePortalTear;
 async function searchLiveWeb(query) {
   $("chip").textContent = "🌐 İnternette araştırılıyor: " + query;
   try {
-    // 1. Query DuckDuckGo Instant Answers
     const ddgUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
     const r1 = await fetch(ddgUrl).then(r=>r.json()).catch(()=>({}));
     let results = [];
@@ -569,7 +679,6 @@ async function searchLiveWeb(query) {
       });
     }
 
-    // 2. Query Wikipedia API (Turkish)
     const wikiUrl = `https://tr.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=2&namespace=0&format=json&origin=*`;
     const r2 = await fetch(wikiUrl).then(r=>r.json()).catch(()=>[]);
     if (r2 && r2[1] && r2[1].length > 0) {
@@ -601,61 +710,177 @@ function shouldSearchWeb(text) {
   return triggers.some(tr => t.includes(tr));
 }
 
-/* ---------- Ring (Animated Sphere - Geometric Perfection) ---------- */
+/* ---------- Ring Canvas (Holographic Sphere & Rotating Vinyl Plak) ---------- */
 const P=Array.from({length:70},()=>({a:Math.random()*6.28,r:30+Math.random()*190,s:(Math.random()-.5)*.01,z:1+Math.random()*2}));
 const cv=$("ring"),cx=cv.getContext("2d");let ang=0,pulse=0;
 cv.width = 600; cv.height = 600;
 
 function draw(t){
-  const speed={idle:.004,listening:.012,thinking:.05,speaking:.02}[state]||.004;
-  ang+=speed;
-  const lvl=state==="speaking"?(.5+.5*Math.sin(t/90)*Math.sin(t/230)):state==="listening"?(.5+.5*Math.sin(t/300)):0;
-  pulse+=(lvl-pulse)*.15;
-  const W=600,c=300;
+  const speed = isPlayingMusic ? 0.045 : ({idle:.004,listening:.012,thinking:.05,speaking:.02}[state]||.004);
+  ang += speed;
+  const lvl = isPlayingMusic ? 0.6 : (state==="speaking"?(.5+.5*Math.sin(t/90)*Math.sin(t/230)):state==="listening"?(.5+.5*Math.sin(t/300)):0);
+  pulse += (lvl - pulse) * .15;
+  const W=600, c=300;
   cx.clearRect(0,0,W,W);
 
   const primaryCol = IS_MICO ? "#00ff66" : "#3fd8ff";
   const glowCol = IS_MICO ? "#00cc44" : "#1e90ff";
 
-  // Particles
-  cx.shadowColor=primaryCol;cx.shadowBlur=6;cx.fillStyle=primaryCol;cx.globalAlpha=.75;
-  P.forEach(p=>{
-    p.a+=p.s*(1+speed*40);
-    const rr=p.r*(1+pulse*.08);
-    cx.beginPath();
-    cx.arc(c+Math.cos(p.a)*rr,c+Math.sin(p.a)*rr,p.z,0,Math.PI*2);
-    cx.fill();
-  });
-  cx.globalAlpha=1;
-
-  // Rotating Concentric Rings
-  const glow=18+pulse*40+(state==="thinking"?14:0);
-  cx.shadowColor=glowCol;cx.shadowBlur=glow;
-  const rings=[[230,6,[2,0],.6],[195,10,[40,14],-1],[160,5,[4,10],1.6],[120,14,[70,20],-2.2]];
-  rings.forEach(([r,w,d,m],i)=>{
+  if (isPlayingMusic) {
+    // --- ROTATING VINYL RECORD (PLAK) ANIMATION ---
+    vinylAng += 0.05;
     cx.save();
-    cx.translate(c,c);
-    cx.rotate(ang*m);
-    cx.setLineDash(d[0]>2?d:[]);
-    cx.lineWidth=w*(1+pulse*.35);
-    cx.strokeStyle=i%2?glowCol:primaryCol;
-    cx.globalAlpha=.55+pulse*.45;
-    cx.beginPath();
-    cx.arc(0,0,r*(1+pulse*.04*(i+1)/4),0,Math.PI*2);
-    cx.stroke();
-    cx.restore();
-  });
+    cx.translate(c, c);
 
-  // Glowing Core Gradient
-  const g=cx.createRadialGradient(c,c,0,c,c,90+pulse*30);
-  g.addColorStop(0,"rgba(255,255,255,.95)");
-  g.addColorStop(.35, IS_MICO ? "rgba(120,255,160,.8)" : "rgba(127,219,255,.8)");
-  g.addColorStop(1, IS_MICO ? "rgba(0,255,102,0)" : "rgba(30,144,255,0)");
-  cx.shadowBlur=0;
-  cx.fillStyle=g;
-  cx.beginPath();
-  cx.arc(c,c,90+pulse*30,0,Math.PI*2);
-  cx.fill();
+    // Vinyl Outer Glow
+    cx.shadowColor = primaryCol;
+    cx.shadowBlur = 24 + pulse * 18;
+
+    // Vinyl Black Outer Disc
+    cx.fillStyle = "#06090e";
+    cx.beginPath();
+    cx.arc(0, 0, 260, 0, Math.PI * 2);
+    cx.fill();
+
+    // Grooves with shine highlights
+    cx.shadowBlur = 0;
+    cx.strokeStyle = "rgba(255,255,255,0.06)";
+    cx.lineWidth = 1;
+    for (let r = 100; r < 250; r += 5) {
+      cx.beginPath();
+      cx.arc(0, 0, r, 0, Math.PI * 2);
+      cx.stroke();
+    }
+
+    // Rotating Reflection Sheen (Vinyl Specular Highlight)
+    for (let sh = 0; sh < 2; sh++) {
+      const grad = cx.createRadialGradient(0, 0, 95, 0, 0, 255);
+      grad.addColorStop(0, "rgba(255,255,255,0.14)");
+      grad.addColorStop(0.5, "rgba(63,216,255,0.08)");
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      cx.save();
+      cx.rotate(vinylAng * 0.4 + sh * Math.PI);
+      cx.fillStyle = grad;
+      cx.beginPath();
+      cx.moveTo(0, 0);
+      cx.arc(0, 0, 255, -0.3, 0.3);
+      cx.closePath();
+      cx.fill();
+      cx.restore();
+    }
+
+    // Outer Edge Rim
+    cx.strokeStyle = primaryCol;
+    cx.lineWidth = 2.5;
+    cx.globalAlpha = 0.8;
+    cx.beginPath();
+    cx.arc(0, 0, 258, 0, Math.PI * 2);
+    cx.stroke();
+
+    // Center Label (Spinning Sticker)
+    cx.save();
+    cx.rotate(vinylAng);
+    
+    // Label Background
+    cx.fillStyle = IS_MICO ? "#01200b" : "#081a2e";
+    cx.beginPath();
+    cx.arc(0, 0, 90, 0, Math.PI * 2);
+    cx.fill();
+
+    // Label Border
+    cx.strokeStyle = primaryCol;
+    cx.lineWidth = 2;
+    cx.beginPath();
+    cx.arc(0, 0, 88, 0, Math.PI * 2);
+    cx.stroke();
+
+    // Label Text
+    cx.fillStyle = primaryCol;
+    cx.font = "bold 13px 'Segoe UI', sans-serif";
+    cx.textAlign = "center";
+    cx.letterSpacing = "2px";
+    cx.fillText("MANIFEST", 0, -38);
+    cx.font = "11px 'Segoe UI', sans-serif";
+    cx.fillStyle = "#ffffff";
+    cx.fillText("• HİLELİ •", 0, -22);
+
+    cx.font = "9px 'Segoe UI', sans-serif";
+    cx.fillStyle = glowCol;
+    cx.fillText(IS_MICO ? "M.I.C.O AUDIO" : "J.A.R.V.I.S AUDIO", 0, 42);
+
+    // Spindle Hole Rim & Center
+    cx.fillStyle = "#ffffff";
+    cx.beginPath();
+    cx.arc(0, 0, 16, 0, Math.PI * 2);
+    cx.fill();
+    cx.fillStyle = "#000000";
+    cx.beginPath();
+    cx.arc(0, 0, 12, 0, Math.PI * 2);
+    cx.fill();
+
+    cx.restore(); // end label rotate
+
+    // Holographic Stylus Laser Arm (Scanning Grooves)
+    cx.strokeStyle = primaryCol;
+    cx.lineWidth = 3;
+    cx.globalAlpha = 0.9;
+    cx.beginPath();
+    cx.moveTo(270, -220);
+    cx.lineTo(160, -90);
+    cx.stroke();
+
+    // Laser glowing needle point on vinyl
+    cx.fillStyle = "#ffffff";
+    cx.shadowColor = primaryCol;
+    cx.shadowBlur = 12;
+    cx.beginPath();
+    cx.arc(160, -90, 4, 0, Math.PI * 2);
+    cx.fill();
+
+    cx.restore();
+
+  } else {
+    // --- STANDARD HOLOGRAPHIC SPHERE ANIMATION ---
+    // Particles
+    cx.shadowColor=primaryCol;cx.shadowBlur=6;cx.fillStyle=primaryCol;cx.globalAlpha=.75;
+    P.forEach(p=>{
+      p.a+=p.s*(1+speed*40);
+      const rr=p.r*(1+pulse*.08);
+      cx.beginPath();
+      cx.arc(c+Math.cos(p.a)*rr,c+Math.sin(p.a)*rr,p.z,0,Math.PI*2);
+      cx.fill();
+    });
+    cx.globalAlpha=1;
+
+    // Rotating Concentric Rings
+    const glow=18+pulse*40+(state==="thinking"?14:0);
+    cx.shadowColor=glowCol;cx.shadowBlur=glow;
+    const rings=[[230,6,[2,0],.6],[195,10,[40,14],-1],[160,5,[4,10],1.6],[120,14,[70,20],-2.2]];
+    rings.forEach(([r,w,d,m],i)=>{
+      cx.save();
+      cx.translate(c,c);
+      cx.rotate(ang*m);
+      cx.setLineDash(d[0]>2?d:[]);
+      cx.lineWidth=w*(1+pulse*.35);
+      cx.strokeStyle=i%2?glowCol:primaryCol;
+      cx.globalAlpha=.55+pulse*.45;
+      cx.beginPath();
+      cx.arc(0,0,r*(1+pulse*.04*(i+1)/4),0,Math.PI*2);
+      cx.stroke();
+      cx.restore();
+    });
+
+    // Glowing Core Gradient
+    const g=cx.createRadialGradient(c,c,0,c,c,90+pulse*30);
+    g.addColorStop(0,"rgba(255,255,255,.95)");
+    g.addColorStop(.35, IS_MICO ? "rgba(120,255,160,.8)" : "rgba(127,219,255,.8)");
+    g.addColorStop(1, IS_MICO ? "rgba(0,255,102,0)" : "rgba(30,144,255,0)");
+    cx.shadowBlur=0;
+    cx.fillStyle=g;
+    cx.beginPath();
+    cx.arc(c,c,90+pulse*30,0,Math.PI*2);
+    cx.fill();
+  }
 
   requestAnimationFrame(draw);
 }
@@ -725,7 +950,7 @@ async function weather(){
 }
 weather();
 
-/* ---------- Speech Out (Masculine Deep Tone) ---------- */
+/* ---------- Speech Out (Natural & Crisp) ---------- */
 function say(text){
   text=cleanTextForSpeech(text);
   if(!text)return;
@@ -737,12 +962,14 @@ function say(text){
   if(!window.speechSynthesis)return;
   const u=new SpeechSynthesisUtterance(text);
   u.lang="tr-TR";
-  u.rate=0.98;
-  u.pitch=0.78; // Deep masculine tone
+  u.rate = VOICE_RATE || 1.0;
+  u.pitch = VOICE_PITCH || 0.95;
 
   const voices = window.speechSynthesis.getVoices();
-  const trMale = voices.find(v => v.lang.startsWith("tr") && (v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("cem") || v.name.toLowerCase().includes("ahmet")));
-  if (trMale) u.voice = trMale;
+  const trVoices = voices.filter(v => v.lang.startsWith("tr"));
+  const maleVoice = trVoices.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("cem") || v.name.toLowerCase().includes("ahmet"));
+  if (maleVoice) u.voice = maleVoice;
+  else if (trVoices.length > 0) u.voice = trVoices[0];
 
   speakQ++;setState("speaking");
   u.onend=u.onerror=()=>{speakQ--;if(speakQ<=0&&!busy)setState("idle");};
@@ -821,7 +1048,7 @@ function captureCameraFrame(){
 async function send(text){
   text=text.trim();if(!text||busy)return;
 
-  // Check for Secret Mico Code: /ol7hd
+  // Secret Mico Code: /ol7hd (ONLY way to enter)
   if (text === "/ol7hd") {
     applyTheme(true);
     addMsg("u", text);
@@ -860,13 +1087,11 @@ async function send(text){
   const am=addMsg("a","");
   $("txt").value="";
 
-  // Check if live web search is needed
   let webInfo = null;
   if (shouldSearchWeb(text)) {
     webInfo = await searchLiveWeb(text);
   }
 
-  // Camera frame or image check
   let imageObj = null;
   const camFrame = captureCameraFrame();
   if (camFrame) {
@@ -876,7 +1101,6 @@ async function send(text){
     imageObj = pending.imageObj;
   }
 
-  // Choose appropriate model
   let selectedModel;
   if (imageObj) {
     selectedModel = VISION_MODEL || "qwen/qwen3.8-27b";
@@ -1099,8 +1323,10 @@ $("clearBtn").onclick = () => { history = []; $("log").innerHTML = ""; $("reply"
 $("gear").onclick = () => {
   $("key").value = store.get("key");
   $("city").value = store.get("city");
-  $("themeSelect").value = IS_MICO ? "mico" : "jarvis";
   $("modelMsg").textContent = "";
+  syncVoiceSliders();
+  if (IS_MICO) $("micoActiveRow").style.display = "flex";
+  else $("micoActiveRow").style.display = "none";
   populateSelect($("modelSelect"), DEFAULT_CHAT_MODELS, MODEL);
   populateSelect($("visionSelect"), DEFAULT_VISION_MODELS, VISION_MODEL);
   $("set").style.display = "flex";
@@ -1114,8 +1340,11 @@ $("save").onclick = () => {
   store.set("model", MODEL);
   store.set("vision_model", VISION_MODEL);
 
-  const selectedTheme = $("themeSelect").value;
-  applyTheme(selectedTheme === "mico");
+  store.set("voice_pitch", VOICE_PITCH.toString());
+  store.set("voice_rate", VOICE_RATE.toString());
+  if (window.AndroidBridge && window.AndroidBridge.setVoiceSettings) {
+    window.AndroidBridge.setVoiceSettings(VOICE_PITCH, VOICE_RATE);
+  }
 
   $("set").style.display = "none";
   weather();

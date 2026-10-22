@@ -2,15 +2,21 @@ package com.mico.jarvis;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -28,6 +34,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
@@ -41,7 +48,12 @@ public class MainActivity extends Activity {
     private ValueCallback<Uri[]> fileUploadCallback;
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
     private static final int PERMISSIONS_REQUEST_CODE = 1002;
+    private static final int AUDIO_PICKER_REQUEST_CODE = 1003;
     private SharedPreferences prefs;
+
+    // Real device audio player
+    private MediaPlayer mediaPlayer;
+    private boolean isAudioPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +114,7 @@ public class MainActivity extends Activity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onPermissionRequest(final PermissionRequest request) {
-                runOnUiThread(() -> {
-                    request.grant(request.getResources());
-                });
+                runOnUiThread(() -> request.grant(request.getResources()));
             }
 
             @Override
@@ -138,7 +148,6 @@ public class MainActivity extends Activity {
                     tts.setLanguage(Locale.getDefault());
                 }
 
-                // Explicitly look for masculine voice in Turkish
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Set<Voice> voices = tts.getVoices();
@@ -161,9 +170,9 @@ public class MainActivity extends Activity {
                     }
                 } catch (Throwable ignored) {}
 
-                // Deep, masculine, resonant Jarvis tone
-                tts.setPitch(0.78f);
-                tts.setSpeechRate(0.97f);
+                // Natural, crisp, calm Jarvis tone
+                tts.setPitch(0.95f);
+                tts.setSpeechRate(1.0f);
                 ttsReady = true;
 
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -185,19 +194,25 @@ public class MainActivity extends Activity {
     }
 
     private void requestRequiredPermissions() {
-        String[] permissions = {
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.CAMERA
-        };
+        ArrayList<String> perms = new ArrayList<>();
+        perms.add(Manifest.permission.RECORD_AUDIO);
+        perms.add(Manifest.permission.CAMERA);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            perms.add(Manifest.permission.READ_MEDIA_AUDIO);
+        } else {
+            perms.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
         boolean needRequest = false;
-        for (String p : permissions) {
+        for (String p : perms) {
             if (checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED) {
                 needRequest = true;
                 break;
             }
         }
         if (needRequest) {
-            requestPermissions(permissions, PERMISSIONS_REQUEST_CODE);
+            requestPermissions(perms.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
         }
     }
 
@@ -221,6 +236,50 @@ public class MainActivity extends Activity {
             }
             fileUploadCallback.onReceiveValue(results);
             fileUploadCallback = null;
+        } else if (requestCode == AUDIO_PICKER_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Uri audioUri = data.getData();
+            if (audioUri != null) {
+                playUriAudio(audioUri, "Manifest - Hileli (Seçilen Parça)");
+            }
+        }
+    }
+
+    private void playUriAudio(Uri uri, String title) {
+        try {
+            stopAudio();
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build());
+            mediaPlayer.setDataSource(this, uri);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            isAudioPlaying = true;
+
+            mediaPlayer.setOnCompletionListener(mp -> {
+                isAudioPlaying = false;
+                runOnUiThread(() -> webView.evaluateJavascript("window.onAudioFinished && window.onAudioFinished();", null));
+            });
+
+            runOnUiThread(() -> webView.evaluateJavascript("window.onTrackLoaded && window.onTrackLoaded('" + title + "', true);", null));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playFileAudio(File file, String title) {
+        playUriAudio(Uri.fromFile(file), title);
+    }
+
+    public void stopAudio() {
+        if (mediaPlayer != null) {
+            try {
+                if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+                mediaPlayer.release();
+            } catch (Exception ignored) {}
+            mediaPlayer = null;
+            isAudioPlaying = false;
         }
     }
 
@@ -263,6 +322,16 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public void setVoiceSettings(float pitch, float rate) {
+            runOnUiThread(() -> {
+                if (ttsReady && tts != null) {
+                    tts.setPitch(pitch);
+                    tts.setSpeechRate(rate);
+                }
+            });
+        }
+
+        @JavascriptInterface
         public void stopSpeak() {
             if (ttsReady) {
                 tts.stop();
@@ -299,6 +368,112 @@ public class MainActivity extends Activity {
             } catch (Exception ignored) {}
             return -1;
         }
+
+        // --- REAL AUDIO SEARCH & PLAYBACK (Manifest - Hileli) ---
+        @JavascriptInterface
+        public boolean searchAndPlayManifest() {
+            // Search MediaStore first
+            try {
+                ContentResolver cr = getContentResolver();
+                Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                String[] projection = {
+                        MediaStore.Audio.Media._ID,
+                        MediaStore.Audio.Media.TITLE,
+                        MediaStore.Audio.Media.DISPLAY_NAME
+                };
+                String selection = "LOWER(" + MediaStore.Audio.Media.TITLE + ") LIKE ? OR LOWER(" + MediaStore.Audio.Media.DISPLAY_NAME + ") LIKE ?";
+                String[] args = new String[]{"%manifest%", "%manifest%"};
+
+                Cursor c = cr.query(uri, projection, selection, args, null);
+                if (c != null && c.moveToFirst()) {
+                    long id = c.getLong(c.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+                    String title = c.getString(c.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+                    c.close();
+                    Uri contentUri = Uri.withAppendedPath(uri, String.valueOf(id));
+                    runOnUiThread(() -> playUriAudio(contentUri, title != null ? title : "Manifest - Hileli"));
+                    return true;
+                }
+                if (c != null) c.close();
+            } catch (Exception ignored) {}
+
+            // Search local device directories (Music, Download)
+            try {
+                File[] searchDirs = {
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                        new File("/storage/emulated/0/Music"),
+                        new File("/storage/emulated/0/Download")
+                };
+                for (File dir : searchDirs) {
+                    if (dir != null && dir.exists() && dir.isDirectory()) {
+                        File found = findManifestFile(dir, 0);
+                        if (found != null) {
+                            runOnUiThread(() -> playFileAudio(found, found.getName()));
+                            return true;
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+
+            return false;
+        }
+
+        @JavascriptInterface
+        public void pickAudioFile() {
+            runOnUiThread(() -> {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("audio/*");
+                startActivityForResult(Intent.createChooser(intent, "Manifest Dosyasını Seçin"), AUDIO_PICKER_REQUEST_CODE);
+            });
+        }
+
+        @JavascriptInterface
+        public void pauseAudio() {
+            runOnUiThread(() -> {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    isAudioPlaying = false;
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void resumeAudio() {
+            runOnUiThread(() -> {
+                if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                    mediaPlayer.start();
+                    isAudioPlaying = true;
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void stopAudio() {
+            runOnUiThread(MainActivity.this::stopAudio);
+        }
+
+        @JavascriptInterface
+        public boolean isRealAudioPlaying() {
+            return isAudioPlaying && mediaPlayer != null && mediaPlayer.isPlaying();
+        }
+    }
+
+    private File findManifestFile(File dir, int depth) {
+        if (depth > 2 || dir == null || !dir.canRead()) return null;
+        File[] files = dir.listFiles();
+        if (files == null) return null;
+        for (File f : files) {
+            String name = f.getName().toLowerCase();
+            if (f.isFile() && (name.contains("manifest") || name.contains("hileli")) &&
+                    (name.endsWith(".mp3") || name.endsWith(".m4a") || name.endsWith(".wav") || name.endsWith(".aac"))) {
+                return f;
+            }
+            if (f.isDirectory() && !name.startsWith(".")) {
+                File sub = findManifestFile(f, depth + 1);
+                if (sub != null) return sub;
+            }
+        }
+        return null;
     }
 
     private void startSpeechRecognition() {
@@ -399,5 +574,6 @@ public class MainActivity extends Activity {
         if (recognizer != null) {
             recognizer.destroy();
         }
+        stopAudio();
     }
 }
