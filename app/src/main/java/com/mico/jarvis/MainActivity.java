@@ -85,6 +85,7 @@ public class MainActivity extends Activity {
 
         setContentView(root);
         webView.loadUrl("file:///android_asset/index.html");
+        checkWakeTrigger(getIntent());
     }
 
     private void setupWebView() {
@@ -200,6 +201,7 @@ public class MainActivity extends Activity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             perms.add(Manifest.permission.READ_MEDIA_AUDIO);
+            perms.add(Manifest.permission.POST_NOTIFICATIONS);
         } else {
             perms.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -213,6 +215,24 @@ public class MainActivity extends Activity {
         }
         if (needRequest) {
             requestPermissions(perms.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        checkWakeTrigger(intent);
+    }
+
+    private void checkWakeTrigger(Intent intent) {
+        if (intent != null && intent.getBooleanExtra("WAKE_TRIGGER", false)) {
+            intent.removeExtra("WAKE_TRIGGER");
+            if (webView != null) {
+                webView.postDelayed(() -> {
+                    webView.evaluateJavascript("window.onWakeTriggered && window.onWakeTriggered();", null);
+                }, 600);
+            }
         }
     }
 
@@ -367,6 +387,43 @@ public class MainActivity extends Activity {
                 }
             } catch (Exception ignored) {}
             return -1;
+        }
+
+        @JavascriptInterface
+        public void startWakeWordService() {
+            runOnUiThread(() -> {
+                try {
+                    Intent sIntent = new Intent(MainActivity.this, WakeWordService.class);
+                    sIntent.setAction(WakeWordService.ACTION_START);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(sIntent);
+                    } else {
+                        startService(sIntent);
+                    }
+                    prefs.edit().putBoolean("wake_service_enabled", true).apply();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void stopWakeWordService() {
+            runOnUiThread(() -> {
+                try {
+                    Intent sIntent = new Intent(MainActivity.this, WakeWordService.class);
+                    sIntent.setAction(WakeWordService.ACTION_STOP);
+                    stopService(sIntent);
+                    prefs.edit().putBoolean("wake_service_enabled", false).apply();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public boolean isWakeWordServiceEnabled() {
+            return prefs.getBoolean("wake_service_enabled", false);
         }
 
         // --- REAL AUDIO SEARCH & PLAYBACK (Manifest - Hileli) ---

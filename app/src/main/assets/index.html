@@ -14,14 +14,13 @@
   --line:rgba(63,216,255,.3);
   --code-bg:#071424;
 }
-body.mico-theme{
-  --bg:#000000;
-  --ice:#00ff66;
-  --blue:#00cc44;
-  --dim:#1e5a2b;
-  --txt:#d4ffd8;
-  --line:rgba(0,255,102,.38);
-  --code-bg:#021406;
+body.friday-theme{
+  --ice:#e879f9;
+  --blue:#c084fc;
+  --dim:#7e22ce;
+  --txt:#fae8ff;
+  --line:rgba(232,121,249,.35);
+  --code-bg:#1a082b;
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--txt);font-family:"Segoe UI",Roboto,sans-serif;overflow:hidden;transition:background 0.3s ease}
@@ -39,7 +38,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:"Segoe U
   transform:translateY(-120%);
   transition:transform .4s cubic-bezier(.17,.89,.32,1.28);
 }
-body.mico-theme #musicBar{background:rgba(2,18,6,.96)}
+body.friday-theme #musicBar{background:rgba(26,8,43,.96)}
 #musicBar.show{transform:translateY(0)}
 .mb-info{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
 .mb-icon{font-size:22px;animation:pulseIcon 1.2s infinite alternate}
@@ -56,19 +55,19 @@ header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;paddi
 header h1{font-weight:300;font-size:22px;letter-spacing:7px;color:var(--ice);text-align:center}
 header small{display:block;text-align:center;font-size:10px;color:var(--dim);letter-spacing:2px;margin-top:2px}
 #gear{background:rgba(10,24,40,.6);border:1px solid var(--line);color:var(--ice);border-radius:50%;width:44px;height:44px;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
-body.mico-theme #gear{background:rgba(0,30,10,.6)}
+body.friday-theme #gear{background:rgba(26,8,43,.6)}
 #gear:active{background:rgba(30,144,255,.35)}
 #online{font-size:11px;color:var(--dim);text-align:right}
 
 /* Buttons */
 .btn{background:none;border:1px solid var(--line);color:var(--ice);border-radius:50%;width:46px;height:46px;font-size:19px;display:grid;place-items:center;cursor:pointer;flex:none}
 .btn.on{background:rgba(30,144,255,.35);box-shadow:0 0 14px var(--blue)}
-body.mico-theme .btn.on{background:rgba(0,255,102,.3);box-shadow:0 0 14px var(--blue)}
+body.friday-theme .btn.on{background:rgba(232,121,249,.3);box-shadow:0 0 14px var(--blue)}
 
 /* Layout */
 main{flex:1;min-height:0;display:grid;grid-template-columns:240px 1fr 320px;gap:12px}
 .panel{position:relative;border:1px solid rgba(63,216,255,.14);background:rgba(10,24,40,.4);padding:14px;min-height:0;display:flex;flex-direction:column;gap:14px;overflow:hidden}
-body.mico-theme .panel{border-color:rgba(0,255,102,.2);background:rgba(2,20,8,.4)}
+body.friday-theme .panel{border-color:rgba(232,121,249,.2);background:rgba(26,8,43,.4)}
 .panel::before,.panel::after{content:"";position:absolute;width:12px;height:12px;border:2px solid var(--ice)}
 .panel::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
 .panel::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
@@ -82,23 +81,22 @@ body.mico-theme .panel{border-color:rgba(0,255,102,.2);background:rgba(2,20,8,.4
 .st i{grid-column:1/3;height:3px;background:rgba(255,255,255,.08);display:block}
 .st u{display:block;height:100%}
 
-/* Stage (Sphere & Vinyl Record Plak & Portal Tear) */
+/* Stage (Sphere & Vinyl Record Plak & Portal Image) */
 #stage{position:relative;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #ring{width:min(44vh,34vw);height:min(44vh,34vw);aspect-ratio:1/1 !important;display:block;margin:0 auto}
 
 #portalTear{
   display:none;position:relative;width:min(44vh,34vw);height:min(44vh,34vw);aspect-ratio:1/1;
-  background:#000;border:2px solid var(--ice);box-shadow:0 0 30px var(--ice);
-  overflow:hidden;border-radius:12px;
-  animation:portalOpen .5s cubic-bezier(.1,.9,.2,1);
+  background:#000;border:2px solid var(--ice);box-shadow:0 0 35px var(--ice);
+  overflow:hidden;border-radius:14px;
+  animation:portalOpen .45s cubic-bezier(.1,.9,.2,1);
 }
 @keyframes portalOpen{
-  0%{transform:scaleY(0.05) scaleX(0.9);opacity:.3;filter:blur(6px)}
-  60%{transform:scaleY(1.08) scaleX(1.04);filter:blur(1px)}
+  0%{transform:scale(0.85);opacity:0;filter:blur(10px)}
   100%{transform:scale(1);opacity:1;filter:blur(0)}
 }
 #portalImg{width:100%;height:100%;object-fit:cover;display:block}
-#portalClose{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);border:1px solid var(--ice);color:var(--ice);border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;letter-spacing:1px}
+#portalClose{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.75);border:1px solid var(--ice);color:var(--ice);border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;letter-spacing:1px}
 
 #name{margin-top:2px;font-size:13px;letter-spacing:4px;color:var(--txt)}
 #status{font-size:10px;letter-spacing:3px;color:var(--ice);margin-top:2px}
@@ -112,29 +110,30 @@ body.mico-theme .panel{border-color:rgba(0,255,102,.2);background:rgba(2,20,8,.4
 
 /* Chat Log & Markdown */
 #log{flex:1;overflow-y:auto;font-size:13px;line-height:1.5}
-.m{margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
+.m{margin-bottom:12px;white-space:pre-wrap;word-break:break-word}
 .m.u{color:var(--dim)}.m.u::before{content:"SİZ: ";color:var(--blue);font-weight:600}
 .m.a::before{content:"JARVIS: ";color:var(--ice);font-weight:600}
-body.mico-theme .m.a::before{content:"M.I.C.O: "}
-.m b, .m strong{color:#fff;font-weight:700}
-body.mico-theme .m b, body.mico-theme .m strong{color:#aaffb8}
-.code-box{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:6px 0;font-family:Consolas,monospace;font-size:12px}
+body.friday-theme .m.a::before{content:"FRIDAY: "}
+.m b, .m strong{color:#ffffff;font-weight:700}
+body.friday-theme .m b, body.friday-theme .m strong{color:#ffdcfc}
+.code-box{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:8px 0;font-family:Consolas,monospace;font-size:12px}
 .code-header{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:6px;font-size:10px;color:var(--dim)}
 .copy-btn{background:none;border:none;color:var(--ice);cursor:pointer;font-size:10px;letter-spacing:1px}
 
 #chip{font-size:12px;color:var(--ice);text-align:center;min-height:16px;transition:opacity .2s}
 #bar{display:flex;gap:8px;align-items:center;padding:6px 0 14px}
 #txt{flex:1;min-width:0;background:rgba(10,24,40,.8);border:1px solid var(--line);border-radius:23px;color:var(--txt);padding:13px 18px;font-size:16px;outline:none}
-body.mico-theme #txt{background:rgba(0,25,8,.8)}
+body.friday-theme #txt{background:rgba(26,8,43,.8)}
 #txt:focus{border-color:var(--ice)}
 
 /* Settings Modal */
-#set{position:fixed;inset:0;background:rgba(2,6,13,.97);display:none;flex-direction:column;justify-content:center;gap:11px;padding:22px;z-index:90;max-width:540px;margin:0 auto;overflow-y:auto}
-body.mico-theme #set{background:rgba(0,12,4,.98)}
-#set input,#set select{background:#0a1828;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:14px;outline:none;width:100%}
-body.mico-theme #set input,body.mico-theme #set select{background:#021808}
-#set input:focus,#set select:focus{border-color:var(--ice)}
-#set button.submit{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px;font-size:15px;cursor:pointer;margin-top:4px}
+#set{position:fixed;inset:0;background:rgba(2,6,13,.98);display:none;flex-direction:column;justify-content:flex-start;gap:12px;padding:22px;z-index:90;max-width:540px;margin:0 auto;overflow-y:auto}
+body.friday-theme #set{background:rgba(15,4,26,.98)}
+#set input,#set select,#set textarea{background:#0a1828;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:13px;outline:none;width:100%;font-family:inherit}
+body.friday-theme #set input,body.friday-theme #set select,body.friday-theme #set textarea{background:#160524}
+#set textarea{resize:vertical;min-height:64px}
+#set input:focus,#set select:focus,#set textarea:focus{border-color:var(--ice)}
+#set button.submit{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px;font-size:15px;cursor:pointer;margin-top:6px}
 #set p{font-size:12px;color:var(--dim);line-height:1.4}
 .slider-row{display:flex;align-items:center;gap:10px}
 .slider-row input[type="range"]{flex:1;accent-color:var(--ice);padding:0}
@@ -218,27 +217,55 @@ body.mico-theme #set input,body.mico-theme #set select{background:#021808}
 
 <input type="file" id="file" accept="image/*,.pdf,.txt,.md,.csv,.json" hidden>
 
-<!-- Settings Modal (Secret Mico Mode is completely hidden!) -->
+<!-- Settings Modal -->
 <div id="set">
-  <h2 style="color:var(--ice);font-weight:300;letter-spacing:2px">AYARLAR</h2>
-  <p>Groq veya Gemini API anahtarınızı girin. Ses tonunu ve modelleri dilediğiniz gibi ayarlayabilirsiniz.</p>
-  <input id="key" type="password" placeholder="API Anahtarı (gsk_... veya AIza...)" autocomplete="off">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h2 style="color:var(--ice);font-weight:300;letter-spacing:2px">SİSTEM AYARLARI</h2>
+    <button id="closeSetBtn" type="button" style="background:none;border:none;color:var(--ice);font-size:18px;cursor:pointer">✕</button>
+  </div>
+  <p>Groq API anahtarınızı ve modelinizi belirleyin.</p>
   
+  <!-- Tek API Anahtarı -->
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <label style="color:var(--ice);font-size:11px;letter-spacing:1px">GROQ API ANAHTARI</label>
+    <input id="key" type="password" placeholder="Groq API Anahtarı (gsk_...)" autocomplete="off">
+  </div>
+
+  <!-- Tek Model Seçimi -->
   <div style="display:flex;flex-direction:column;gap:3px">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <label style="color:var(--ice);font-size:11px;letter-spacing:1px">METİN MODELİ (SOHBET & KOD)</label>
+      <label style="color:var(--ice);font-size:11px;letter-spacing:1px">YAPAY ZEKA MODELİ</label>
       <button id="refreshModels" type="button" style="background:rgba(30,144,255,.25);border:1px solid var(--line);color:var(--ice);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer">Modelleri Çek</button>
     </div>
     <select id="modelSelect"></select>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:3px">
-    <label style="color:var(--ice);font-size:11px;letter-spacing:1px">GÖRSEL / KAMERA MODELİ (VISION)</label>
-    <select id="visionSelect"></select>
     <div id="modelMsg" style="font-size:10px;color:var(--dim);letter-spacing:1px;min-height:12px"></div>
   </div>
 
-  <!-- Voice Sound Settings (Pitch & Speed) -->
+  <!-- Arka Plan Uyandırma Servisi (Wake Word) -->
+  <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(10,24,40,.6);border:1px solid var(--line);border-radius:8px;padding:10px">
+    <div>
+      <div style="color:var(--ice);font-size:11px;font-weight:600;letter-spacing:1px">ARKA PLAN DİNLEME (HEY JARVIS)</div>
+      <div style="font-size:10px;color:var(--dim)">Uygulama kapalıyken bile sesle uyanır</div>
+    </div>
+    <input id="wakeToggle" type="checkbox" style="width:22px;height:22px;accent-color:var(--ice);cursor:pointer">
+  </div>
+
+  <!-- Prompt Yönetimi (JARVIS & FRIDAY) -->
+  <div style="display:flex;flex-direction:column;gap:3px">
+    <label style="color:var(--ice);font-size:11px;letter-spacing:1px">JARVIS SİSTEM PROMPTU</label>
+    <textarea id="jarvisPrompt" placeholder="JARVIS Sistem Promptu..."></textarea>
+  </div>
+
+  <!-- Gizli FRIDAY Prompt (/ol7hd ile görünür) -->
+  <div id="fridayPromptRow" style="display:none;flex-direction:column;gap:6px;background:rgba(232,121,249,.08);border:1px solid rgba(232,121,249,.4);border-radius:8px;padding:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="color:#fae8ff;font-size:11px;font-weight:600;letter-spacing:1px">FRIDAY SİSTEM PROMPTU (GİZLİ MOD)</span>
+      <button id="exitFridayBtn" type="button" style="background:#ff5a5a;border:none;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">JARVIS'e Dön</button>
+    </div>
+    <textarea id="fridayPrompt" placeholder="FRIDAY Sistem Promptu..."></textarea>
+  </div>
+
+  <!-- Ses Ayarları -->
   <div style="display:flex;flex-direction:column;gap:5px;background:rgba(10,24,40,.5);border:1px solid var(--line);border-radius:8px;padding:8px 10px">
     <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ice)">
       <span>SES TONU: <b id="pitchVal">1.0x (Doğal)</b></span>
@@ -260,49 +287,42 @@ body.mico-theme #set input,body.mico-theme #set select{background:#021808}
     </div>
   </div>
 
-  <div id="micoActiveRow" style="display:none;background:rgba(0,40,15,.6);border:1px solid #00ff66;border-radius:8px;padding:8px;align-items:center;justify-content:space-between">
-    <span style="color:#00ff66;font-size:11px;letter-spacing:1px">● MİCO MODU AKTİF</span>
-    <button id="exitMicoBtn" type="button" style="background:#ff5a5a;border:none;color:#fff;border-radius:6px;padding:4px 8px;font-size:10px;cursor:pointer">Normal Temaya Dön</button>
-  </div>
-
   <input id="city" placeholder="Şehir (hava durumu için, örn: Istanbul)">
-  <button id="save" class="submit">Kaydet</button>
+  <button id="save" class="submit">Kaydet ve Uygula</button>
 </div>
 
 <script>
 const $=id=>document.getElementById(id);
 const store={get:k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 
-// Preload keys from AndroidBridge
-if (window.AndroidBridge) {
-  try {
-    const k = window.AndroidBridge.getApiKey();
-    if (k && !store.get("key")) store.set("key", k);
-  } catch(e){}
+// Tek Groq API Anahtarı
+let apiKey = store.get("key") || store.get("groq_key_1") || "";
+if (!apiKey && window.AndroidBridge && window.AndroidBridge.getApiKey) {
+  apiKey = window.AndroidBridge.getApiKey();
 }
 
-const DEFAULT_CHAT_MODELS = [
+// Tek Model Seçimi
+const DEFAULT_MODELS = [
   { id: "openai/gpt-oss-120b", name: "openai/gpt-oss-120b (Önerilen ⭐)" },
+  { id: "qwen/qwen3.8-27b", name: "qwen/qwen3.8-27b (Vision & Zeki)" },
   { id: "llama-3.3-70b-versatile", name: "llama-3.3-70b-versatile" },
-  { id: "llama-3.1-8b-instant", name: "llama-3.1-8b-instant" },
+  { id: "llama-3.1-8b-instant", name: "llama-3.1-8b-instant (Çok Hızlı)" },
   { id: "openai/gpt-oss-20b", name: "openai/gpt-oss-20b" },
   { id: "meta-llama/llama-4-scout-17b-16e-instruct", name: "llama-4-scout-17b-instruct" },
-  { id: "qwen/qwen3-32b", name: "qwen/qwen3-32b" },
-  { id: "gemini-3.8-flash", name: "gemini-3.8-flash" },
-  { id: "gemini-2.5-flash", name: "gemini-2.5-flash" }
-];
-
-const DEFAULT_VISION_MODELS = [
-  { id: "qwen/qwen3.8-27b", name: "qwen/qwen3.8-27b (Önerilen ⭐)" },
-  { id: "meta-llama/llama-3.2-11b-vision-instruct", name: "llama-3.2-11b-vision-instruct" },
-  { id: "meta-llama/llama-3.2-90b-vision-instruct", name: "llama-3.2-90b-vision-instruct" },
-  { id: "gemini-3.8-flash", name: "gemini-3.8-flash (Vision)" },
-  { id: "gemini-2.5-flash", name: "gemini-2.5-flash (Vision)" }
+  { id: "qwen/qwen3-32b", name: "qwen/qwen3-32b" }
 ];
 
 let MODEL = store.get("model") || "openai/gpt-oss-120b";
-let VISION_MODEL = store.get("vision_model") || "qwen/qwen3.8-27b";
-let IS_MICO = store.get("mico_mode") === "true";
+
+// FRIDAY MODU VE PROMPT YÖNETİMİ
+let IS_FRIDAY = store.get("friday_mode") === "true";
+let FRIDAY_UNLOCKED = store.get("friday_unlocked") === "true" || IS_FRIDAY;
+
+const DEFAULT_JARVIS_PROMPT = "Sen erkeksi, ciddi, zeki ve Stark teknolojilerine sahip bir asistansın. Kullanıcıya 'Efendim' diye hitap et. Kod yazarken temiz ve eksiksiz kod blokları sun.";
+const DEFAULT_FRIDAY_PROMPT = "Sen F.R.I.D.A.Y. sistemisin. Zeki, sadık ve zarif bir yapay zekasın. Kullanıcıya 'Muhammed Efendi' veya 'Patron Muhammed' diye hitap et. Kod yazarken ve teknik analizlerde kusursuz destek ver.";
+
+let jarvisCustomPrompt = store.get("jarvis_prompt") || DEFAULT_JARVIS_PROMPT;
+let fridayCustomPrompt = store.get("friday_prompt") || DEFAULT_FRIDAY_PROMPT;
 
 let VOICE_PITCH = parseFloat(store.get("voice_pitch")) || 0.95;
 let VOICE_RATE = parseFloat(store.get("voice_rate")) || 1.0;
@@ -330,43 +350,46 @@ $("rateSlider").oninput = e => {
   }
 };
 $("testVoiceBtn").onclick = () => {
-  say("Sistemler çalışıyor efendim, ses kalitesi test ediliyor.");
+  say(IS_FRIDAY ? "Sistemler çalışıyor Muhammed Efendi, ses tonum test ediliyor." : "Sistemler çalışıyor efendim, ses kalitesi test ediliyor.");
 };
 
-function applyTheme(isMico) {
-  IS_MICO = isMico;
-  store.set("mico_mode", isMico ? "true" : "false");
-  if (isMico) {
-    document.body.classList.add("mico-theme");
-    $("appTitle").textContent = "M.I.C.O";
-    $("appSub").textContent = "Mücahit İntel Cyber Operations";
-    $("name").textContent = "M.I.C.O";
-    $("micoActiveRow").style.display = "flex";
+function applyFridayMode(isFriday) {
+  IS_FRIDAY = isFriday;
+  store.set("friday_mode", isFriday ? "true" : "false");
+  if (isFriday) {
+    FRIDAY_UNLOCKED = true;
+    store.set("friday_unlocked", "true");
+    document.body.classList.add("friday-theme");
+    $("appTitle").textContent = "F.R.I.D.A.Y.";
+    $("appSub").textContent = "Female Replacement Intelligent Digital Assistant Youth";
+    $("name").textContent = "FRIDAY";
+    $("fridayPromptRow").style.display = "flex";
+    VOICE_PITCH = 1.15;
   } else {
-    document.body.classList.remove("mico-theme");
+    document.body.classList.remove("friday-theme");
     $("appTitle").textContent = "J.A.R.V.I.S";
     $("appSub").textContent = "Just A Rather Very Intelligent System";
     $("name").textContent = "JARVIS";
-    $("micoActiveRow").style.display = "none";
+    VOICE_PITCH = 0.95;
+  }
+  syncVoiceSliders();
+  if (window.AndroidBridge && window.AndroidBridge.setVoiceSettings) {
+    window.AndroidBridge.setVoiceSettings(VOICE_PITCH, VOICE_RATE);
   }
 }
-applyTheme(IS_MICO);
+applyFridayMode(IS_FRIDAY);
 
-$("exitMicoBtn").onclick = () => {
-  applyTheme(false);
+$("exitFridayBtn").onclick = () => {
+  applyFridayMode(false);
   $("set").style.display = "none";
   say("Standart Jarvis protokolüne dönüldü, efendim.");
 };
 
 function getSystemPrompt() {
-  if (IS_MICO) {
-    return "Sen Mücahit Efendi'nin özel gizli yapay zekası M.I.C.O.'sun. Kullanıcıya her zaman 'Mücahit Efendi' veya 'Mücahit Bey' diye hitap et. "
-      + "Hacker ve siber operasyon modundasın; kod yazmada, web araştırmasında ve sistem analizinde son derece yetkinsin. "
-      + "Türkçe, akıcı, zeki ve profesyonel konuş. Kod yazarken kod bloklarını eksiksiz ver.";
+  if (IS_FRIDAY) {
+    return fridayCustomPrompt + " Eğer kullanıcının sorusu hakkında daha fazla internet araştırması gerekiyorsa [ARA: sorgu], bir görsel gerekiyorsa [GORSEL: konu] etiketini ekle.";
   }
-  return "Sen Tony Stark'ın yapay zekası J.A.R.V.I.S.'sin. Kullanıcıya 'efendim' diye hitap et. "
-    + "Türkçe, akıcı, zeki, doğal ve saygılı konuş. Madde işareti veya gereksiz karakter kullanma. "
-    + "Kod yazarken temiz ve eksiksiz kod blokları sun.";
+  return jarvisCustomPrompt + " Eğer kullanıcının sorusu hakkında daha fazla internet araştırması gerekiyorsa [ARA: sorgu], bir görsel gerekiyorsa [GORSEL: konu] etiketini ekle.";
 }
 
 function populateSelect(selectEl, list, selectedId) {
@@ -392,56 +415,32 @@ function populateSelect(selectEl, list, selectedId) {
 }
 
 async function fetchModels() {
-  const key = $("key").value.trim() || store.get("key");
+  const key = $("key").value.trim() || apiKey;
   const msg = $("modelMsg");
   if (!key) {
-    msg.textContent = "Önce API anahtarınızı girin.";
+    msg.textContent = "Önce Groq API anahtarınızı girin.";
     msg.style.color = "#ff5a5a";
     return;
   }
-  msg.textContent = "Modeller sorgulanıyor…";
+  msg.textContent = "Groq modelleri sorgulanıyor…";
   msg.style.color = "var(--ice)";
   try {
-    if (key.startsWith("gsk_") || !key.startsWith("AIza")) {
-      const res = await fetch("https://api.groq.com/openai/v1/models", {
-        headers: { "Authorization": "Bearer " + key }
-      });
-      if (!res.ok) throw new Error("Hata " + res.status);
-      const data = await res.json();
-      const allIds = (data.data || []).map(x => x.id).filter(id => !id.includes("whisper") && !id.includes("guard") && !id.includes("tts") && !id.includes("orpheus") && !id.includes("embed"));
-      allIds.sort();
+    const res = await fetch("https://api.groq.com/openai/v1/models", {
+      headers: { "Authorization": "Bearer " + key }
+    });
+    if (!res.ok) throw new Error("Hata " + res.status);
+    const data = await res.json();
+    const allIds = (data.data || []).map(x => x.id).filter(id => !id.includes("whisper") && !id.includes("guard") && !id.includes("tts") && !id.includes("orpheus") && !id.includes("embed"));
+    allIds.sort();
 
-      const chatList = [];
-      const recChat = "openai/gpt-oss-120b";
-      if (allIds.includes(recChat)) chatList.push({ id: recChat, name: recChat + " (Önerilen ⭐)" });
-      allIds.forEach(id => { if (id !== recChat) chatList.push({ id, name: id }); });
+    const list = [];
+    const rec = "openai/gpt-oss-120b";
+    if (allIds.includes(rec)) list.push({ id: rec, name: rec + " (Önerilen ⭐)" });
+    allIds.forEach(id => { if (id !== rec) list.push({ id, name: id }); });
 
-      const visionList = [];
-      const recVis = "qwen/qwen3.8-27b";
-      visionList.push({ id: recVis, name: recVis + " (Önerilen ⭐)" });
-      allIds.filter(id => id.includes("vision") || id.includes("qwen") || id.includes("vl") || id.includes("scout")).forEach(id => {
-        if (id !== recVis) visionList.push({ id, name: id });
-      });
-
-      populateSelect($("modelSelect"), chatList, MODEL || recChat);
-      populateSelect($("visionSelect"), visionList, VISION_MODEL || recVis);
-      msg.textContent = allIds.length + " model yüklendi!";
-      msg.style.color = "#35e08a";
-    } else {
-      const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models?key=" + key);
-      if (!res.ok) throw new Error("Hata " + res.status);
-      const data = await res.json();
-      const list = (data.models || [])
-        .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"))
-        .map(m => {
-          const id = m.name.replace(/^models\//, "");
-          return { id, name: id };
-        });
-      populateSelect($("modelSelect"), list, MODEL || "gemini-3.8-flash");
-      populateSelect($("visionSelect"), list, VISION_MODEL || "gemini-3.8-flash");
-      msg.textContent = list.length + " model yüklendi!";
-      msg.style.color = "#35e08a";
-    }
+    populateSelect($("modelSelect"), list, MODEL || rec);
+    msg.textContent = allIds.length + " model yüklendi!";
+    msg.style.color = "#35e08a";
   } catch(e) {
     msg.textContent = "Model listesi alınamadı: " + e.message;
     msg.style.color = "#ff5a5a";
@@ -449,12 +448,13 @@ async function fetchModels() {
 }
 $("refreshModels").onclick = fetchModels;
 
-/* ---------- Markdown & Code Formatter ---------- */
+/* ---------- METİN BİÇİMLENDİRME (Markdown & Otomatik Vurgulama) ---------- */
 function formatMarkdown(text) {
   if (!text) return "";
   let html = text
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+  // Code blocks ```lang\ncode```
   html = html.replace(/```([a-zA-Z0-9_\-\+]*)\n([\s\S]*?)```/g, (match, lang, code) => {
     return `<div class="code-box">
       <div class="code-header">
@@ -465,9 +465,22 @@ function formatMarkdown(text) {
     </div>`;
   });
 
+  // Inline code `code`
   html = html.replace(/`([^`]+)`/g, `<code style="background:var(--line);padding:2px 5px;border-radius:4px;color:var(--ice);font-family:monospace">$1</code>`);
+
+  // Bold & Italic markdown: **bold** or *italic*
   html = html.replace(/\*\*([^*]+)\*\*/g, `<b>$1</b>`);
   html = html.replace(/\*([^*\n]+)\*/g, `<b>$1</b>`);
+
+  // Headers
+  html = html.replace(/^### (.*$)/gim, '<b style="color:var(--ice);font-size:13px;display:block;margin:6px 0 2px">$1</b>');
+  html = html.replace(/^## (.*$)/gim, '<b style="color:var(--ice);font-size:14px;display:block;margin:8px 0 2px">$1</b>');
+  html = html.replace(/^# (.*$)/gim, '<b style="color:var(--ice);font-size:15px;display:block;margin:10px 0 3px">$1</b>');
+
+  // Yıldız kullanılmasa bile başlık ve tırnak algılama
+  html = html.replace(/(^|\n)([A-ZÇĞİÖŞÜ][A-Za-zÇĞİÖŞÜçğıöşü\s]{2,20}:)/g, '$1<b>$2</b>');
+  html = html.replace(/"([^"\n]{2,40})"/g, '<b style="color:var(--ice)">"$1"</b>');
+
   return html;
 }
 
@@ -483,6 +496,7 @@ window.copySnippet = function(btn) {
 function cleanTextForSpeech(text) {
   return text
     .replace(/```[\s\S]*?```/g, "kod bloğu")
+    .replace(/\[(ARA|GORSEL):[^\]]+\]/gi, "")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/\*\*([^*]+)\*\*/g, "$1")
     .replace(/\*([^*]+)\*/g, "$1")
@@ -492,19 +506,126 @@ function cleanTextForSpeech(text) {
     .trim();
 }
 
-/* ---------- Audio & Music (Real File Search + Vinyl Mode) ---------- */
+/* ---------- İNTERNETTEN GÖRSEL BULMA & 6 SANİYE KÜRE EFEKTİ ---------- */
+let portalTimer = null;
+function showPortalImage(url, caption) {
+  if (!url) return;
+  $("portalImg").src = url;
+  $("ring").style.display = "none";
+  $("portalTear").style.display = "block";
+  if (caption) $("chip").textContent = "🖼 " + caption;
+
+  // Görsel ekranda TAM 6 saniye kaldıktan sonra otomatik kaybolup küre geri gelir!
+  if (portalTimer) clearTimeout(portalTimer);
+  portalTimer = setTimeout(() => {
+    hidePortalTear();
+    $("chip").textContent = "";
+  }, 6000);
+}
+
+function hidePortalTear() {
+  if (portalTimer) clearTimeout(portalTimer);
+  portalTimer = null;
+  $("portalTear").style.display = "none";
+  $("ring").style.display = "block";
+}
+$("portalClose").onclick = hidePortalTear;
+
+async function searchLiveImage(query) {
+  try {
+    const cleanQuery = query.replace(/(görsel|resim|fotoğraf|resmini|göster|bul|foto|ara)\b/gi, "").trim() || query;
+    const wikiUrl = `https://tr.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(cleanQuery)}&prop=pageimages&format=json&pithumbsize=600&origin=*`;
+    const res = await fetch(wikiUrl).then(r => r.json()).catch(() => null);
+    if (res && res.query && res.query.pages) {
+      const pages = Object.values(res.query.pages);
+      for (const p of pages) {
+        if (p.thumbnail && p.thumbnail.source) return p.thumbnail.source;
+      }
+    }
+
+    const enWikiUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(cleanQuery)}&gsrlimit=1&prop=pageimages&format=json&pithumbsize=600&origin=*`;
+    const enRes = await fetch(enWikiUrl).then(r => r.json()).catch(() => null);
+    if (enRes && enRes.query && enRes.query.pages) {
+      const pages = Object.values(enRes.query.pages);
+      for (const p of pages) {
+        if (p.thumbnail && p.thumbnail.source) return p.thumbnail.source;
+      }
+    }
+
+    return `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80`;
+  } catch(e) {
+    return null;
+  }
+}
+
+/* ---------- CANLI İNTERNET ARAMASI (DuckDuckGo + Wikipedia) ---------- */
+async function searchLiveWeb(query) {
+  $("chip").textContent = "🌐 İnternette araştırılıyor: " + query;
+  try {
+    const cleanQ = query.replace(/(araştır|internette ara|arama yap|araştırma|bilgi ver|nedir|kimdir)\b/gi, "").trim() || query;
+    let results = [];
+
+    try {
+      const ddgUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(cleanQ)}&format=json&no_html=1&skip_disambig=1`;
+      const r1 = await fetch(ddgUrl).then(r=>r.json()).catch(()=>({}));
+      if (r1.AbstractText) {
+        results.push("Özet: " + r1.AbstractText + (r1.AbstractSource ? ` (Kaynak: ${r1.AbstractSource})` : ""));
+      }
+      if (r1.RelatedTopics && r1.RelatedTopics.length > 0) {
+        r1.RelatedTopics.slice(0, 3).forEach(t => {
+          if (t.Text) results.push(t.Text);
+        });
+      }
+    } catch(e) {}
+
+    try {
+      const wikiUrl = `https://tr.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(cleanQ)}&limit=3&namespace=0&format=json&origin=*`;
+      const r2 = await fetch(wikiUrl).then(r=>r.json()).catch(()=>[]);
+      if (r2 && r2[1] && r2[1].length > 0) {
+        for (let i = 0; i < r2[1].length; i++) {
+          const title = r2[1][i];
+          const desc = r2[2] ? r2[2][i] : "";
+          if (desc) results.push(`${title}: ${desc}`);
+        }
+      }
+    } catch(e) {}
+
+    if (results.length > 0) {
+      $("chip").textContent = "🌐 Güncel web bilgileri alındı ✓";
+      setTimeout(() => { $("chip").textContent = ""; }, 3000);
+      return results.join("\n\n");
+    }
+  } catch(e) {}
+  $("chip").textContent = "";
+  return null;
+}
+
+function shouldSearchWeb(text) {
+  const t = text.toLowerCase();
+  const triggers = [
+    "araştır", "internette ara", "arama yap", "araştırma",
+    "güncel", "son dakika", "haberler", "hava durumu",
+    "kimdir", "nedir", "kaç yaşında", "nerede", "ne zaman",
+    "fiyatı", "dolar", "euro", "altın", "borsa", "maç", "puan"
+  ];
+  return triggers.some(tr => t.includes(tr));
+}
+
+function shouldSearchImage(text) {
+  const t = text.toLowerCase();
+  return t.includes("görsel") || t.includes("resim") || t.includes("fotoğraf") || t.includes("resmini göster") || t.includes("nasıl görünür");
+}
+
+/* ---------- Audio & Music (Manifest - Hileli + Plak Modu) ---------- */
 let isPlayingMusic = false, musicTimer = null, isRealAudioPlaying = false;
 let vinylAng = 0;
 
 function playManifest() {
   showMusicBar("Manifest - Hileli Aranıyor…", "Cihaz dosyaları taranıyor");
-  
-  // Try real device file playback first!
   let found = false;
   if (window.AndroidBridge && window.AndroidBridge.searchAndPlayManifest) {
     found = window.AndroidBridge.searchAndPlayManifest();
   }
-
   if (found) {
     isRealAudioPlaying = true;
     isPlayingMusic = true;
@@ -512,7 +633,6 @@ function playManifest() {
     $("mbTitle").textContent = "Çalıyor: Manifest - Hileli";
     $("mbSub").textContent = "Cihaz Ses Dosyası Oynatılıyor 🎵";
   } else {
-    // If file not automatically found, start synth beat and offer picker button
     startBeatLoop();
     $("mbTitle").textContent = "Manifest - Hileli (Synthesizer)";
     $("mbSub").textContent = "Cihazda dosya bulunamadı, parçanızı 'Seç' butonuyla açabilirsiniz";
@@ -548,11 +668,10 @@ function startBeatLoop() {
   $("mbPlayBtn").textContent = "⏸ Duraklat";
   const ctx = getAudioContext();
   let step = 0;
-  
   function scheduleBeat() {
     if (!isPlayingMusic || isRealAudioPlaying) return;
     const now = ctx.currentTime;
-    if (step % 8 === 0 || step % 8 === 4 || step % 16 === 10) {
+    if (step % 8 === 0 || step % 8 === 4) {
       const osc = ctx.createOscillator(), g = ctx.createGain();
       osc.frequency.setValueAtTime(140, now);
       osc.frequency.exponentialRampToValueAtTime(38, now + 0.18);
@@ -561,54 +680,18 @@ function startBeatLoop() {
       osc.connect(g); g.connect(ctx.destination);
       osc.start(now); osc.stop(now + 0.25);
     }
-    if (step % 8 === 4) {
-      const osc = ctx.createOscillator(), g = ctx.createGain();
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(260, now);
-      osc.frequency.exponentialRampToValueAtTime(80, now + 0.12);
-      g.gain.setValueAtTime(0.4, now);
-      g.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(now); osc.stop(now + 0.15);
-    }
-    if (step % 2 === 0 || step % 8 === 7) {
-      const osc = ctx.createOscillator(), g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(6000 + (step % 4) * 500, now);
-      g.gain.setValueAtTime(0.12, now);
-      g.gain.exponentialRampToValueAtTime(0.005, now + 0.05);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(now); osc.stop(now + 0.05);
-    }
-    const notes = [220, 261, 293, 329, 293, 261, 196, 220];
-    const freq = notes[Math.floor(step / 2) % notes.length];
-    const synth = ctx.createOscillator(), sg = ctx.createGain();
-    synth.type = "sawtooth";
-    synth.frequency.setValueAtTime(freq, now);
-    sg.gain.setValueAtTime(0.15, now);
-    sg.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
-    synth.connect(sg); sg.connect(ctx.destination);
-    synth.start(now); synth.stop(now + 0.22);
-
     step++;
     musicTimer = setTimeout(scheduleBeat, 135);
   }
   scheduleBeat();
 }
-
-function stopBeatLoopOnly() {
-  if (musicTimer) clearTimeout(musicTimer);
-}
-
+function stopBeatLoopOnly() { if (musicTimer) clearTimeout(musicTimer); }
 function pauseAllAudio() {
   isPlayingMusic = false;
   if (musicTimer) clearTimeout(musicTimer);
-  if (window.AndroidBridge && window.AndroidBridge.pauseAudio) {
-    window.AndroidBridge.pauseAudio();
-  }
+  if (window.AndroidBridge && window.AndroidBridge.pauseAudio) window.AndroidBridge.pauseAudio();
   $("mbPlayBtn").textContent = "▶ Devam Et";
 }
-
 function resumeAllAudio() {
   isPlayingMusic = true;
   if (isRealAudioPlaying && window.AndroidBridge && window.AndroidBridge.resumeAudio) {
@@ -618,97 +701,22 @@ function resumeAllAudio() {
   }
   $("mbPlayBtn").textContent = "⏸ Duraklat";
 }
-
 function stopAllAudio() {
   isPlayingMusic = false;
   isRealAudioPlaying = false;
   if (musicTimer) clearTimeout(musicTimer);
-  if (window.AndroidBridge && window.AndroidBridge.stopAudio) {
-    window.AndroidBridge.stopAudio();
-  }
+  if (window.AndroidBridge && window.AndroidBridge.stopAudio) window.AndroidBridge.stopAudio();
   $("musicBar").classList.remove("show");
 }
-
 function showMusicBar(title, sub) {
   $("mbTitle").textContent = title;
   $("mbSub").textContent = sub;
   $("musicBar").classList.add("show");
 }
-
-$("mbPlayBtn").onclick = () => {
-  if (isPlayingMusic) pauseAllAudio();
-  else resumeAllAudio();
-};
-
-$("mbPickBtn").onclick = () => {
-  if (window.AndroidBridge && window.AndroidBridge.pickAudioFile) {
-    window.AndroidBridge.pickAudioFile();
-  }
-};
-
+$("mbPlayBtn").onclick = () => { if (isPlayingMusic) pauseAllAudio(); else resumeAllAudio(); };
+$("mbPickBtn").onclick = () => { if (window.AndroidBridge && window.AndroidBridge.pickAudioFile) window.AndroidBridge.pickAudioFile(); };
 $("mbStopBtn").onclick = stopAllAudio;
-$("mbCloseBtn").onclick = () => {
-  $("musicBar").classList.remove("show");
-};
-
-/* ---------- Dimensional Portal Tear Effect ---------- */
-function showPortalTear(imageUrl) {
-  $("portalImg").src = imageUrl;
-  $("ring").style.display = "none";
-  $("portalTear").style.display = "block";
-}
-function hidePortalTear() {
-  $("portalTear").style.display = "none";
-  $("ring").style.display = "block";
-}
-$("portalClose").onclick = hidePortalTear;
-
-/* ---------- Live Web Search ---------- */
-async function searchLiveWeb(query) {
-  $("chip").textContent = "🌐 İnternette araştırılıyor: " + query;
-  try {
-    const ddgUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
-    const r1 = await fetch(ddgUrl).then(r=>r.json()).catch(()=>({}));
-    let results = [];
-    if (r1.AbstractText) {
-      results.push("Özet: " + r1.AbstractText + (r1.AbstractSource ? ` (Kaynak: ${r1.AbstractSource})` : ""));
-    }
-    if (r1.RelatedTopics && r1.RelatedTopics.length > 0) {
-      r1.RelatedTopics.slice(0, 3).forEach(t => {
-        if (t.Text) results.push(t.Text);
-      });
-    }
-
-    const wikiUrl = `https://tr.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=2&namespace=0&format=json&origin=*`;
-    const r2 = await fetch(wikiUrl).then(r=>r.json()).catch(()=>[]);
-    if (r2 && r2[1] && r2[1].length > 0) {
-      for (let i = 0; i < r2[1].length; i++) {
-        const title = r2[1][i];
-        const desc = r2[2] ? r2[2][i] : "";
-        if (desc) results.push(`${title}: ${desc}`);
-      }
-    }
-
-    if (results.length > 0) {
-      $("chip").textContent = "🌐 Güncel web bilgileri alındı ✓";
-      setTimeout(() => { $("chip").textContent = ""; }, 3000);
-      return results.join("\n\n");
-    }
-  } catch(e) {}
-  $("chip").textContent = "";
-  return null;
-}
-
-function shouldSearchWeb(text) {
-  const t = text.toLowerCase();
-  const triggers = [
-    "araştır", "internette ara", "arama yap", "araştırma",
-    "güncel", "son dakika", "haberler", "hava durumu",
-    "kimdir", "nedir", "kaç yaşında", "nerede", "ne zaman",
-    "fiyatı", "dolar", "euro", "altın", "borsa", "maç", "puan"
-  ];
-  return triggers.some(tr => t.includes(tr));
-}
+$("mbCloseBtn").onclick = () => { $("musicBar").classList.remove("show"); };
 
 /* ---------- Ring Canvas (Holographic Sphere & Rotating Vinyl Plak) ---------- */
 const P=Array.from({length:70},()=>({a:Math.random()*6.28,r:30+Math.random()*190,s:(Math.random()-.5)*.01,z:1+Math.random()*2}));
@@ -723,26 +731,22 @@ function draw(t){
   const W=600, c=300;
   cx.clearRect(0,0,W,W);
 
-  const primaryCol = IS_MICO ? "#00ff66" : "#3fd8ff";
-  const glowCol = IS_MICO ? "#00cc44" : "#1e90ff";
+  const primaryCol = IS_FRIDAY ? "#e879f9" : "#3fd8ff";
+  const glowCol = IS_FRIDAY ? "#c084fc" : "#1e90ff";
 
   if (isPlayingMusic) {
-    // --- ROTATING VINYL RECORD (PLAK) ANIMATION ---
+    // --- DÖNEN VİNİL PLAK ANİMASYONU ---
     vinylAng += 0.05;
     cx.save();
     cx.translate(c, c);
 
-    // Vinyl Outer Glow
     cx.shadowColor = primaryCol;
     cx.shadowBlur = 24 + pulse * 18;
-
-    // Vinyl Black Outer Disc
     cx.fillStyle = "#06090e";
     cx.beginPath();
     cx.arc(0, 0, 260, 0, Math.PI * 2);
     cx.fill();
 
-    // Grooves with shine highlights
     cx.shadowBlur = 0;
     cx.strokeStyle = "rgba(255,255,255,0.06)";
     cx.lineWidth = 1;
@@ -752,107 +756,49 @@ function draw(t){
       cx.stroke();
     }
 
-    // Rotating Reflection Sheen (Vinyl Specular Highlight)
-    for (let sh = 0; sh < 2; sh++) {
-      const grad = cx.createRadialGradient(0, 0, 95, 0, 0, 255);
-      grad.addColorStop(0, "rgba(255,255,255,0.14)");
-      grad.addColorStop(0.5, "rgba(63,216,255,0.08)");
-      grad.addColorStop(1, "rgba(0,0,0,0)");
-      cx.save();
-      cx.rotate(vinylAng * 0.4 + sh * Math.PI);
-      cx.fillStyle = grad;
-      cx.beginPath();
-      cx.moveTo(0, 0);
-      cx.arc(0, 0, 255, -0.3, 0.3);
-      cx.closePath();
-      cx.fill();
-      cx.restore();
-    }
-
-    // Outer Edge Rim
-    cx.strokeStyle = primaryCol;
-    cx.lineWidth = 2.5;
-    cx.globalAlpha = 0.8;
-    cx.beginPath();
-    cx.arc(0, 0, 258, 0, Math.PI * 2);
-    cx.stroke();
-
-    // Center Label (Spinning Sticker)
-    cx.save();
     cx.rotate(vinylAng);
-    
-    // Label Background
-    cx.fillStyle = IS_MICO ? "#01200b" : "#081a2e";
+    const grad = cx.createConicGradient(0, 0, 0);
+    grad.addColorStop(0, "rgba(255,255,255,0.18)");
+    grad.addColorStop(0.12, "rgba(255,255,255,0.02)");
+    grad.addColorStop(0.5, "rgba(255,255,255,0.18)");
+    grad.addColorStop(0.62, "rgba(255,255,255,0.02)");
+    grad.addColorStop(1, "rgba(255,255,255,0.18)");
+    cx.fillStyle = grad;
     cx.beginPath();
-    cx.arc(0, 0, 90, 0, Math.PI * 2);
+    cx.arc(0, 0, 255, 0, Math.PI * 2);
     cx.fill();
 
-    // Label Border
-    cx.strokeStyle = primaryCol;
-    cx.lineWidth = 2;
-    cx.beginPath();
-    cx.arc(0, 0, 88, 0, Math.PI * 2);
-    cx.stroke();
-
-    // Label Text
     cx.fillStyle = primaryCol;
-    cx.font = "bold 13px 'Segoe UI', sans-serif";
+    cx.beginPath();
+    cx.arc(0, 0, 80, 0, Math.PI * 2);
+    cx.fill();
+
+    cx.fillStyle = "#02060d";
+    cx.beginPath();
+    cx.arc(0, 0, 18, 0, Math.PI * 2);
+    cx.fill();
+
+    cx.fillStyle = "#fff";
+    cx.font = "bold 11px sans-serif";
     cx.textAlign = "center";
-    cx.letterSpacing = "2px";
-    cx.fillText("MANIFEST", 0, -38);
-    cx.font = "11px 'Segoe UI', sans-serif";
-    cx.fillStyle = "#ffffff";
-    cx.fillText("• HİLELİ •", 0, -22);
-
-    cx.font = "9px 'Segoe UI', sans-serif";
-    cx.fillStyle = glowCol;
-    cx.fillText(IS_MICO ? "M.I.C.O AUDIO" : "J.A.R.V.I.S AUDIO", 0, 42);
-
-    // Spindle Hole Rim & Center
-    cx.fillStyle = "#ffffff";
-    cx.beginPath();
-    cx.arc(0, 0, 16, 0, Math.PI * 2);
-    cx.fill();
-    cx.fillStyle = "#000000";
-    cx.beginPath();
-    cx.arc(0, 0, 12, 0, Math.PI * 2);
-    cx.fill();
-
-    cx.restore(); // end label rotate
-
-    // Holographic Stylus Laser Arm (Scanning Grooves)
-    cx.strokeStyle = primaryCol;
-    cx.lineWidth = 3;
-    cx.globalAlpha = 0.9;
-    cx.beginPath();
-    cx.moveTo(270, -220);
-    cx.lineTo(160, -90);
-    cx.stroke();
-
-    // Laser glowing needle point on vinyl
-    cx.fillStyle = "#ffffff";
-    cx.shadowColor = primaryCol;
-    cx.shadowBlur = 12;
-    cx.beginPath();
-    cx.arc(160, -90, 4, 0, Math.PI * 2);
-    cx.fill();
+    cx.fillText("MANIFEST", 0, -32);
+    cx.font = "9px sans-serif";
+    cx.fillText("HILELI", 0, 42);
 
     cx.restore();
-
   } else {
-    // --- STANDARD HOLOGRAPHIC SPHERE ANIMATION ---
-    // Particles
-    cx.shadowColor=primaryCol;cx.shadowBlur=6;cx.fillStyle=primaryCol;cx.globalAlpha=.75;
+    // --- 1:1 KUSURSUZ HOLOGRAFİK KÜRE ---
     P.forEach(p=>{
-      p.a+=p.s*(1+speed*40);
-      const rr=p.r*(1+pulse*.08);
+      p.a+=p.s*(1+pulse*2);
+      const rr=p.r*(1+pulse*.12);
+      cx.fillStyle=primaryCol;
+      cx.globalAlpha=.35+pulse*.45;
       cx.beginPath();
       cx.arc(c+Math.cos(p.a)*rr,c+Math.sin(p.a)*rr,p.z,0,Math.PI*2);
       cx.fill();
     });
     cx.globalAlpha=1;
 
-    // Rotating Concentric Rings
     const glow=18+pulse*40+(state==="thinking"?14:0);
     cx.shadowColor=glowCol;cx.shadowBlur=glow;
     const rings=[[230,6,[2,0],.6],[195,10,[40,14],-1],[160,5,[4,10],1.6],[120,14,[70,20],-2.2]];
@@ -870,11 +816,10 @@ function draw(t){
       cx.restore();
     });
 
-    // Glowing Core Gradient
     const g=cx.createRadialGradient(c,c,0,c,c,90+pulse*30);
     g.addColorStop(0,"rgba(255,255,255,.95)");
-    g.addColorStop(.35, IS_MICO ? "rgba(120,255,160,.8)" : "rgba(127,219,255,.8)");
-    g.addColorStop(1, IS_MICO ? "rgba(0,255,102,0)" : "rgba(30,144,255,0)");
+    g.addColorStop(.35, IS_FRIDAY ? "rgba(240,170,255,.8)" : "rgba(127,219,255,.8)");
+    g.addColorStop(1, IS_FRIDAY ? "rgba(232,121,249,0)" : "rgba(30,144,255,0)");
     cx.shadowBlur=0;
     cx.fillStyle=g;
     cx.beginPath();
@@ -909,7 +854,7 @@ const t0=Date.now();
 function bar(l,v,t,c){return `<div class="st"><span>${l}</span><em>${t}</em><i><u style="width:${Math.min(100,v)}%;background:${c}"></u></i></div>`}
 async function stats(){
   let h="";const up=Math.floor((Date.now()-t0)/60000);
-  h+=bar("ÇALIŞMA SÜRESİ",up,up+" dk",IS_MICO?"#00ff66":"#3fd8ff");
+  h+=bar("ÇALIŞMA SÜRESİ",up,up+" dk",IS_FRIDAY?"#e879f9":"#3fd8ff");
   try{
     if (navigator.getBattery) {
       const b=await navigator.getBattery();const l=Math.round(b.level*100);h+=bar("PİL",l,l+"%"+(b.charging?" ⚡":""),"#35e08a");
@@ -950,7 +895,7 @@ async function weather(){
 }
 weather();
 
-/* ---------- Speech Out (Natural & Crisp) ---------- */
+/* ---------- Speech Out (Natural & Clean) ---------- */
 function say(text){
   text=cleanTextForSpeech(text);
   if(!text)return;
@@ -963,13 +908,19 @@ function say(text){
   const u=new SpeechSynthesisUtterance(text);
   u.lang="tr-TR";
   u.rate = VOICE_RATE || 1.0;
-  u.pitch = VOICE_PITCH || 0.95;
+  u.pitch = VOICE_PITCH || (IS_FRIDAY ? 1.15 : 0.95);
 
   const voices = window.speechSynthesis.getVoices();
   const trVoices = voices.filter(v => v.lang.startsWith("tr"));
-  const maleVoice = trVoices.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("cem") || v.name.toLowerCase().includes("ahmet"));
-  if (maleVoice) u.voice = maleVoice;
-  else if (trVoices.length > 0) u.voice = trVoices[0];
+  if (IS_FRIDAY) {
+    const female = trVoices.find(v => v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("yelda") || v.name.toLowerCase().includes("suna"));
+    if (female) u.voice = female;
+    else if (trVoices.length > 0) u.voice = trVoices[0];
+  } else {
+    const male = trVoices.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("cem") || v.name.toLowerCase().includes("ahmet"));
+    if (male) u.voice = male;
+    else if (trVoices.length > 0) u.voice = trVoices[0];
+  }
 
   speakQ++;setState("speaking");
   u.onend=u.onerror=()=>{speakQ--;if(speakQ<=0&&!busy)setState("idle");};
@@ -995,7 +946,7 @@ $("file").onchange=async e=>{
   if(f.type.startsWith("image/")) {
     const raw = await b64();
     pending={imageObj:{mimeType:f.type,base64:raw,name:f.name}};
-    showPortalTear("data:" + f.type + ";base64," + raw);
+    showPortalImage("data:" + f.type + ";base64," + raw, f.name);
   } else if(f.type==="application/pdf") {
     pending={inlineData:{mimeType:"application/pdf",data:await b64()}};
   } else {
@@ -1044,15 +995,15 @@ function captureCameraFrame(){
   };
 }
 
-/* ---------- Chat Routing & Secret Code /ol7hd ---------- */
+/* ---------- Chat & Groq Request ---------- */
 async function send(text){
   text=text.trim();if(!text||busy)return;
 
-  // Secret Mico Code: /ol7hd (ONLY way to enter)
+  // Gizli Kod: /ol7hd ve FRIDAY Modu
   if (text === "/ol7hd") {
-    applyTheme(true);
+    applyFridayMode(true);
     addMsg("u", text);
-    const resp = "MİCO PROTOKOLÜ DEVREDE. Hoş geldiniz Mücahit Efendi! Hacker yeşili siber terminal aktif edildi. Tüm yetkiler size devredildi. Emrinizdeyim.";
+    const resp = "FRIDAY PROTOKOLÜ DEVREYE GİRDİ. Hoş geldiniz Muhammed Efendi! Ayarlar panelinde FRIDAY Sistem Promptu alanı aktifleştirildi. Emrinizdeyim Patron Muhammed.";
     $("reply").textContent = resp;
     addMsg("a", resp);
     $("txt").value = "";
@@ -1060,9 +1011,9 @@ async function send(text){
     return;
   }
   if (text === "/normal" || text === "/jarvis") {
-    applyTheme(false);
+    applyFridayMode(false);
     addMsg("u", text);
-    const resp = "Standart J.A.R.V.I.S. protokolüne dönüldü, efendim. Buz mavisi HUD devrede.";
+    const resp = "Standart J.A.R.V.I.S. protokolüne dönüldü, efendim. Buz mavisi Stark HUD devrede.";
     $("reply").textContent = resp;
     addMsg("a", resp);
     $("txt").value = "";
@@ -1070,15 +1021,19 @@ async function send(text){
     return;
   }
 
-  // Check for music triggers (Manifest - Hileli)
+  // Music Trigger (Manifest - Hileli)
   const low = text.toLowerCase();
-  if (low.includes("manifest") || low.includes("hileli") || low.includes("canım sıkıldı") || low.includes("sinirim bozuldu") || low.includes("moralim bozuk") || low.includes("stres")) {
+  if (low.includes("manifest") || low.includes("hileli") || low.includes("canım sıkıldı") || low.includes("sinirim bozuldu") || low.includes("moralim bozuk")) {
     playManifest();
   }
 
-  let key=store.get("key");
-  if(window.AndroidBridge && !key) key = window.AndroidBridge.getApiKey();
-  if(!key){$("set").style.display="flex";return;}
+  if (!apiKey) {
+    $("set").style.display = "flex";
+    const warn = "Lütfen önce Groq API anahtarınızı girin efendim.";
+    $("reply").textContent = warn;
+    say(warn);
+    return;
+  }
 
   stopSpeak();busy=true;setState("thinking");
   $("you").textContent=text;
@@ -1086,6 +1041,12 @@ async function send(text){
   addMsg("u",text);
   const am=addMsg("a","");
   $("txt").value="";
+
+  if (shouldSearchImage(text)) {
+    searchLiveImage(text).then(imgUrl => {
+      if (imgUrl) showPortalImage(imgUrl, "Görsel Yansıtılıyor (6 sn)");
+    });
+  }
 
   let webInfo = null;
   if (shouldSearchWeb(text)) {
@@ -1096,26 +1057,16 @@ async function send(text){
   const camFrame = captureCameraFrame();
   if (camFrame) {
     imageObj = camFrame;
-    showPortalTear(camFrame.dataUrl);
+    showPortalImage(camFrame.dataUrl, "Canlı Kamera Görüntüsü");
   } else if (pending && pending.imageObj) {
     imageObj = pending.imageObj;
   }
 
-  let selectedModel;
-  if (imageObj) {
-    selectedModel = VISION_MODEL || "qwen/qwen3.8-27b";
-  } else {
-    selectedModel = MODEL || "openai/gpt-oss-120b";
-  }
-
-  if (key.startsWith("gsk_") || !key.startsWith("AIza")) {
-    await sendGroq(text, key, selectedModel, imageObj, webInfo, am);
-  } else {
-    await sendGemini(text, key, selectedModel, imageObj, webInfo, am);
-  }
+  await sendGroq(text, MODEL || "openai/gpt-oss-120b", imageObj, webInfo, am);
 }
 
-async function sendGroq(text, key, model, imageObj, webInfo, am) {
+/* Groq API Talebi */
+async function sendGroq(text, model, imageObj, webInfo, am) {
   let promptText = text;
   if (webInfo) {
     promptText += `\n\n[GÜNCEL İNTERNET BİLGİLERİ:\n${webInfo}\nLütfen bu güncel bilgilere dayanarak yanıt ver.]`;
@@ -1151,13 +1102,15 @@ async function sendGroq(text, key, model, imageObj, webInfo, am) {
   try {
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + apiKey },
       body: JSON.stringify({ model: model, messages: msgs, stream: true, max_tokens: 1500 })
     });
+
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.error?.message || "Hata " + res.status);
     }
+
     const reader = res.body.getReader(), decoder = new TextDecoder();
     let sb = "";
     while (true) {
@@ -1177,87 +1130,49 @@ async function sendGroq(text, key, model, imageObj, webInfo, am) {
             $("reply").textContent = full;
             am.innerHTML = formatMarkdown(full);
             $("log").scrollTop = 1e9;
+
+            const imgMatch = full.match(/\[GORSEL:\s*([^\]]+)\]/i);
+            if (imgMatch && imgMatch[1]) {
+              searchLiveImage(imgMatch[1]).then(u => { if (u) showPortalImage(u, imgMatch[1]); });
+            }
+
             const m = buf.match(/^([\s\S]*?[.!?\n])\s/);
             if (m) { say(m[1]); buf = buf.slice(m[0].length); }
           }
         } catch (e) {}
       }
     }
+
     if (buf.trim()) say(buf);
     history.push({ role: "user", content: text + (imageObj ? " [Görsel/Kamera]" : "") }, { role: "model", content: full });
     history = history.slice(-20);
-  } catch (e) {
-    $("reply").textContent = am.textContent = "Bir sorun var: " + e.message;
+    $("chip").textContent = "";
+  } catch (err) {
+    const fallbackMsg = "Sistemler şu an yanıt vermiyor efendim: " + err.message;
+    $("reply").textContent = am.textContent = fallbackMsg;
+    say("Sistemler şu an yanıt vermiyor efendim");
   }
-  busy = false; if (speakQ <= 0) setState("idle");
-}
 
-async function sendGemini(text, key, model, imageObj, webInfo, am) {
-  let promptText = text;
-  if (webInfo) {
-    promptText += `\n\n[GÜNCEL İNTERNET BİLGİLERİ:\n${webInfo}\nLütfen bu güncel bilgilere dayanarak yanıt ver.]`;
-  }
-  const parts = [];
-  if (imageObj) {
-    parts.push({
-      inlineData: {
-        mimeType: imageObj.mimeType,
-        data: imageObj.base64
-      }
-    });
-  }
-  if (pending && pending.text) parts.push({ text: pending.text });
-  parts.push({ text: promptText });
-  pending = null;
-
-  const msgs = [...history.map(h => ({ role: h.role, parts: h.parts || [{ text: h.content || "" }] })), { role: "user", parts: parts }];
-  let full = "", buf = "";
-  try {
-    const body = JSON.stringify({ systemInstruction: { parts: [{ text: getSystemPrompt() }] }, contents: msgs, generationConfig: { maxOutputTokens: 1500 } });
-    let r, lastErr = "";
-    const candidateModels = [model, "gemini-3.8-flash", "gemini-2.5-flash"];
-    for (const mdl of [...new Set(candidateModels)]) {
-      if (!mdl || mdl.startsWith("llama") || mdl.startsWith("openai") || mdl.startsWith("qwen")) continue;
-      r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + mdl + ":streamGenerateContent?alt=sse", {
-        method: "POST", headers: { "content-type": "application/json", "x-goog-api-key": key }, body
-      });
-      if (r.ok) break;
-      const e = await r.json().catch(() => ({})); lastErr = e.error?.message || ("Hata " + r.status);
-      if (![429, 404, 500, 503].includes(r.status)) throw new Error(lastErr);
-    }
-    if (!r || !r.ok) throw new Error(lastErr);
-    const rd = r.body.getReader(), dec = new TextDecoder(); let sb = "";
-    while (true) {
-      const { done, value } = await rd.read(); if (done) break;
-      sb += dec.decode(value, { stream: true });
-      const lines = sb.split("\n"); sb = lines.pop();
-      for (const l of lines) {
-        if (!l.startsWith("data:")) continue;
-        try {
-          const j = JSON.parse(l.slice(5));
-          const tx = (j.candidates?.[0]?.content?.parts || []).map(x => x.text || "").join("");
-          if (tx) {
-            full += tx; buf += tx;
-            $("reply").textContent = full;
-            am.innerHTML = formatMarkdown(full);
-            $("log").scrollTop = 1e9;
-            const m = buf.match(/^([\s\S]*?[.!?\n])\s/);
-            if (m) { say(m[1]); buf = buf.slice(m[0].length); }
-          }
-        } catch (e) {}
-      }
-    }
-    if (buf.trim()) say(buf);
-    history.push({ role: "user", parts: [{ text: text + (imageObj ? " [Görsel/Kamera]" : "") }] }, { role: "model", parts: [{ text: full }] });
-    history = history.slice(-20);
-  } catch (e) {
-    $("reply").textContent = am.textContent = "Bir sorun var: " + e.message;
-  }
-  busy = false; if (speakQ <= 0) setState("idle");
+  busy = false;
+  if (speakQ <= 0) setState("idle");
 }
 
 $("sendBtn").onclick = () => send($("txt").value);
 $("txt").addEventListener("keydown", e => { if (e.key === "Enter") send($("txt").value); });
+
+/* ---------- Wake Word External Listener ('Hey Jarvis') ---------- */
+window.onWakeTriggered = function() {
+  const greeting = IS_FRIDAY ? "Efendim, sizi dinliyorum Muhammed Efendi." : "Efendim, sizi dinliyorum.";
+  $("reply").textContent = greeting;
+  say(greeting);
+  setTimeout(() => {
+    if (window.AndroidBridge && window.AndroidBridge.toggleMic) {
+      window.AndroidBridge.toggleMic();
+    } else {
+      $("mic").click();
+    }
+  }, 1200);
+};
 
 /* ---------- Mic ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1317,28 +1232,64 @@ window.onSpeechState = function (isListening) {
 
 $("liveBtn").onclick = () => { $("camBtn").click(); };
 $("pauseBtn").onclick = () => { stopSpeak(); if (!busy) setState("idle"); };
-$("clearBtn").onclick = () => { history = []; $("log").innerHTML = ""; $("reply").textContent = IS_MICO ? "Konuşma temizlendi, Mücahit Efendi." : "Konuşma temizlendi, efendim."; $("you").textContent = ""; };
+$("clearBtn").onclick = () => { history = []; $("log").innerHTML = ""; $("reply").textContent = IS_FRIDAY ? "Konuşma temizlendi, Muhammed Efendi." : "Konuşma temizlendi, efendim."; $("you").textContent = ""; };
 
-/* ---------- Settings Dialog ---------- */
+/* ---------- AYARLAR ---------- */
 $("gear").onclick = () => {
-  $("key").value = store.get("key");
+  $("key").value = apiKey || "";
   $("city").value = store.get("city");
+  $("jarvisPrompt").value = jarvisCustomPrompt;
+  $("fridayPrompt").value = fridayCustomPrompt;
   $("modelMsg").textContent = "";
   syncVoiceSliders();
-  if (IS_MICO) $("micoActiveRow").style.display = "flex";
-  else $("micoActiveRow").style.display = "none";
-  populateSelect($("modelSelect"), DEFAULT_CHAT_MODELS, MODEL);
-  populateSelect($("visionSelect"), DEFAULT_VISION_MODELS, VISION_MODEL);
+
+  if (window.AndroidBridge && window.AndroidBridge.isWakeWordServiceEnabled) {
+    $("wakeToggle").checked = window.AndroidBridge.isWakeWordServiceEnabled();
+  } else {
+    $("wakeToggle").checked = store.get("wake_enabled") === "true";
+  }
+
+  if (FRIDAY_UNLOCKED) {
+    $("fridayPromptRow").style.display = "flex";
+  } else {
+    $("fridayPromptRow").style.display = "none";
+  }
+
+  populateSelect($("modelSelect"), DEFAULT_MODELS, MODEL);
   $("set").style.display = "flex";
 };
 
+$("closeSetBtn").onclick = () => {
+  $("set").style.display = "none";
+};
+
+$("wakeToggle").onchange = e => {
+  const enabled = e.target.checked;
+  store.set("wake_enabled", enabled ? "true" : "false");
+  if (window.AndroidBridge) {
+    if (enabled && window.AndroidBridge.startWakeWordService) {
+      window.AndroidBridge.startWakeWordService();
+    } else if (!enabled && window.AndroidBridge.stopWakeWordService) {
+      window.AndroidBridge.stopWakeWordService();
+    }
+  }
+};
+
 $("save").onclick = () => {
-  store.set("key", $("key").value.trim());
+  apiKey = $("key").value.trim();
+  store.set("key", apiKey);
+  if (window.AndroidBridge && window.AndroidBridge.setApiKey) {
+    window.AndroidBridge.setApiKey(apiKey);
+  }
+
+  jarvisCustomPrompt = $("jarvisPrompt").value.trim() || DEFAULT_JARVIS_PROMPT;
+  fridayCustomPrompt = $("fridayPrompt").value.trim() || DEFAULT_FRIDAY_PROMPT;
+  store.set("jarvis_prompt", jarvisCustomPrompt);
+  store.set("friday_prompt", fridayCustomPrompt);
+
   store.set("city", $("city").value.trim());
   MODEL = $("modelSelect").value || "openai/gpt-oss-120b";
-  VISION_MODEL = $("visionSelect").value || "qwen/qwen3.8-27b";
   store.set("model", MODEL);
-  store.set("vision_model", VISION_MODEL);
 
   store.set("voice_pitch", VOICE_PITCH.toString());
   store.set("voice_rate", VOICE_RATE.toString());
@@ -1350,12 +1301,9 @@ $("save").onclick = () => {
   weather();
 };
 
-populateSelect($("modelSelect"), DEFAULT_CHAT_MODELS, MODEL);
-populateSelect($("visionSelect"), DEFAULT_VISION_MODELS, VISION_MODEL);
+populateSelect($("modelSelect"), DEFAULT_MODELS, MODEL);
 
-let currentKey = store.get("key");
-if (window.AndroidBridge && !currentKey) currentKey = window.AndroidBridge.getApiKey();
-if (!currentKey) $("set").style.display = "flex";
+if (!apiKey) $("set").style.display = "flex";
 </script>
 </body>
 </html>
