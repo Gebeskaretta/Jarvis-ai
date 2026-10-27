@@ -22,6 +22,15 @@ body.friday-theme{
   --line:rgba(232,121,249,.35);
   --code-bg:#1a082b;
 }
+body.eribeyz-theme{
+  --bg:#030c14;
+  --ice:#d6f6ff;
+  --blue:#80e1ff;
+  --dim:#58a4c8;
+  --txt:#f2fcff;
+  --line:rgba(214,246,255,.45);
+  --code-bg:#081b29;
+}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--txt);font-family:"Segoe UI",Roboto,sans-serif;overflow:hidden;transition:background 0.3s ease}
 #app{height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0) 14px env(safe-area-inset-bottom,0)}
@@ -39,6 +48,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:"Segoe U
   transition:transform .4s cubic-bezier(.17,.89,.32,1.28);
 }
 body.friday-theme #musicBar{background:rgba(26,8,43,.96)}
+body.eribeyz-theme #musicBar{background:rgba(8,27,41,.96);border-bottom-color:var(--ice)}
 #musicBar.show{transform:translateY(0)}
 .mb-info{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
 .mb-icon{font-size:22px;animation:pulseIcon 1.2s infinite alternate}
@@ -56,6 +66,7 @@ header h1{font-weight:300;font-size:22px;letter-spacing:7px;color:var(--ice);tex
 header small{display:block;text-align:center;font-size:10px;color:var(--dim);letter-spacing:2px;margin-top:2px}
 #gear{background:rgba(10,24,40,.6);border:1px solid var(--line);color:var(--ice);border-radius:50%;width:44px;height:44px;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
 body.friday-theme #gear{background:rgba(26,8,43,.6)}
+body.eribeyz-theme #gear{background:rgba(8,27,41,.6);border-color:var(--line);color:var(--ice)}
 #gear:active{background:rgba(30,144,255,.35)}
 #online{font-size:11px;color:var(--dim);text-align:right}
 
@@ -63,11 +74,13 @@ body.friday-theme #gear{background:rgba(26,8,43,.6)}
 .btn{background:none;border:1px solid var(--line);color:var(--ice);border-radius:50%;width:46px;height:46px;font-size:19px;display:grid;place-items:center;cursor:pointer;flex:none}
 .btn.on{background:rgba(30,144,255,.35);box-shadow:0 0 14px var(--blue)}
 body.friday-theme .btn.on{background:rgba(232,121,249,.3);box-shadow:0 0 14px var(--blue)}
+body.eribeyz-theme .btn.on{background:rgba(128,225,255,.35);box-shadow:0 0 16px var(--blue)}
 
 /* Layout */
 main{flex:1;min-height:0;display:grid;grid-template-columns:240px 1fr 320px;gap:12px}
 .panel{position:relative;border:1px solid rgba(63,216,255,.14);background:rgba(10,24,40,.4);padding:14px;min-height:0;display:flex;flex-direction:column;gap:14px;overflow:hidden}
 body.friday-theme .panel{border-color:rgba(232,121,249,.2);background:rgba(26,8,43,.4)}
+body.eribeyz-theme .panel{border-color:rgba(214,246,255,.25);background:rgba(8,27,41,.45)}
 .panel::before,.panel::after{content:"";position:absolute;width:12px;height:12px;border:2px solid var(--ice)}
 .panel::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
 .panel::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
@@ -114,8 +127,10 @@ body.friday-theme .panel{border-color:rgba(232,121,249,.2);background:rgba(26,8,
 .m.u{color:var(--dim)}.m.u::before{content:"SİZ: ";color:var(--blue);font-weight:600}
 .m.a::before{content:"JARVIS: ";color:var(--ice);font-weight:600}
 body.friday-theme .m.a::before{content:"FRIDAY: "}
+body.eribeyz-theme .m.a::before{content:"EriBeyz: "}
 .m b, .m strong{color:#ffffff;font-weight:700}
 body.friday-theme .m b, body.friday-theme .m strong{color:#ffdcfc}
+body.eribeyz-theme .m b, body.eribeyz-theme .m strong{color:#d6f6ff}
 .code-box{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:8px 0;font-family:Consolas,monospace;font-size:12px}
 .code-header{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:6px;font-size:10px;color:var(--dim)}
 .copy-btn{background:none;border:none;color:var(--ice);cursor:pointer;font-size:10px;letter-spacing:1px}
@@ -124,13 +139,16 @@ body.friday-theme .m b, body.friday-theme .m strong{color:#ffdcfc}
 #bar{display:flex;gap:8px;align-items:center;padding:6px 0 14px}
 #txt{flex:1;min-width:0;background:rgba(10,24,40,.8);border:1px solid var(--line);border-radius:23px;color:var(--txt);padding:13px 18px;font-size:16px;outline:none}
 body.friday-theme #txt{background:rgba(26,8,43,.8)}
+body.eribeyz-theme #txt{background:rgba(8,27,41,.8)}
 #txt:focus{border-color:var(--ice)}
 
 /* Settings Modal */
 #set{position:fixed;inset:0;background:rgba(2,6,13,.98);display:none;flex-direction:column;justify-content:flex-start;gap:12px;padding:22px;z-index:90;max-width:540px;margin:0 auto;overflow-y:auto}
 body.friday-theme #set{background:rgba(15,4,26,.98)}
+body.eribeyz-theme #set{background:rgba(3,14,24,.98)}
 #set input,#set select,#set textarea{background:#0a1828;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:13px;outline:none;width:100%;font-family:inherit}
 body.friday-theme #set input,body.friday-theme #set select,body.friday-theme #set textarea{background:#160524}
+body.eribeyz-theme #set input,body.eribeyz-theme #set select,body.eribeyz-theme #set textarea{background:#0c2236}
 #set textarea{resize:vertical;min-height:64px}
 #set input:focus,#set select:focus,#set textarea:focus{border-color:var(--ice)}
 #set button.submit{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px;font-size:15px;cursor:pointer;margin-top:6px}
@@ -172,7 +190,7 @@ body.friday-theme #set input,body.friday-theme #set select,body.friday-theme #se
 
   <header>
     <button id="gear" aria-label="Ayarlar">⚙</button>
-    <div><h1 id="appTitle">J.A.R.V.I.S</h1><small id="appSub">Just A Rather Very Intelligent System</small></div>
+    <div><h1 id="appTitle">J.A.R.V.I.S</h1><small id="appSub">Just A Rather Very Intelligent System · v2.3.2</small></div>
     <div id="online">● ÇEVRİMİÇİ</div>
   </header>
 
@@ -220,7 +238,7 @@ body.friday-theme #set input,body.friday-theme #set select,body.friday-theme #se
 <!-- Settings Modal -->
 <div id="set">
   <div style="display:flex;justify-content:space-between;align-items:center">
-    <h2 style="color:var(--ice);font-weight:300;letter-spacing:2px">SİSTEM AYARLARI</h2>
+    <h2 style="color:var(--ice);font-weight:300;letter-spacing:2px">SİSTEM AYARLARI (v2.3.2)</h2>
     <button id="closeSetBtn" type="button" style="background:none;border:none;color:var(--ice);font-size:18px;cursor:pointer">✕</button>
   </div>
   <p>Groq API anahtarınızı ve modelinizi belirleyin.</p>
@@ -250,6 +268,26 @@ body.friday-theme #set input,body.friday-theme #set select,body.friday-theme #se
     <input id="wakeToggle" type="checkbox" style="width:22px;height:22px;accent-color:var(--ice);cursor:pointer">
   </div>
 
+  <!-- SES EĞİTİM MODU (WAKE WORD EĞİTİMİ) -->
+  <div style="display:flex;flex-direction:column;gap:8px;background:rgba(10,24,40,.6);border:1px solid var(--line);border-radius:8px;padding:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="color:var(--ice);font-size:11px;font-weight:600;letter-spacing:1px">SES EĞİTİM MODU (WAKE WORD)</span>
+      <span style="font-size:10px;color:var(--dim)">Kendi Sesinle Eğit</span>
+    </div>
+    <div style="font-size:11px;color:var(--dim);line-height:1.4">Cihazın sesinizi kusursuz algılaması için 'Kelimeyi Eğit' butonuna basarak 'Hey Jarvis' veya dilediğiniz uyandırma kelimesini söyleyin.</div>
+
+    <div style="display:flex;gap:6px">
+      <button id="trainVoiceBtn" type="button" style="flex:1;background:rgba(30,144,255,.25);border:1px solid var(--ice);color:var(--ice);border-radius:6px;padding:9px;font-size:11px;font-weight:600;cursor:pointer">🎙 Kelimeyi Eğit</button>
+      <button id="testWakeBtn" type="button" style="background:rgba(0,255,102,.15);border:1px solid #00ff66;color:#aaffb8;border-radius:6px;padding:9px 12px;font-size:11px;cursor:pointer">🧪 Test Et</button>
+    </div>
+    <div id="trainStatus" style="font-size:11px;color:var(--ice);min-height:16px;text-align:center"></div>
+
+    <div style="display:flex;flex-direction:column;gap:3px">
+      <label style="font-size:10px;color:var(--dim)">Eğitilen & Tanınan Anahtar Kelimeler (Virgülle ayırın):</label>
+      <input id="customWakeWords" style="font-size:12px" placeholder="hey jarvis, jarvis, carvis, ey jarvis, patron, friday">
+    </div>
+  </div>
+
   <!-- Prompt Yönetimi (JARVIS & FRIDAY) -->
   <div style="display:flex;flex-direction:column;gap:3px">
     <label style="color:var(--ice);font-size:11px;letter-spacing:1px">JARVIS SİSTEM PROMPTU</label>
@@ -263,6 +301,15 @@ body.friday-theme #set input,body.friday-theme #set select,body.friday-theme #se
       <button id="exitFridayBtn" type="button" style="background:#ff5a5a;border:none;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">JARVIS'e Dön</button>
     </div>
     <textarea id="fridayPrompt" placeholder="FRIDAY Sistem Promptu..."></textarea>
+  </div>
+
+  <!-- Gizli EriBeyz Prompt (/ui2kd ile görünür) -->
+  <div id="eribeyzPromptRow" style="display:none;flex-direction:column;gap:6px;background:rgba(214,246,255,.08);border:1px solid rgba(214,246,255,.4);border-radius:8px;padding:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="color:#d6f6ff;font-size:11px;font-weight:600;letter-spacing:1px">EriBeyz SİSTEM PROMPTU (ULTRON-JARVIS HİBRİT)</span>
+      <button id="exitEribeyzBtn" type="button" style="background:#ff5a5a;border:none;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">JARVIS'e Dön</button>
+    </div>
+    <textarea id="eribeyzPrompt" placeholder="EriBeyz Sistem Promptu..."></textarea>
   </div>
 
   <!-- Ses Ayarları -->
@@ -314,15 +361,18 @@ const DEFAULT_MODELS = [
 
 let MODEL = store.get("model") || "openai/gpt-oss-120b";
 
-// FRIDAY MODU VE PROMPT YÖNETİMİ
-let IS_FRIDAY = store.get("friday_mode") === "true";
-let FRIDAY_UNLOCKED = store.get("friday_unlocked") === "true" || IS_FRIDAY;
+// PROTOKOL VE PROMPT YÖNETİMİ (JARVIS, FRIDAY, ERIBEYZ)
+let CURRENT_MODE = store.get("mode") || (store.get("friday_mode") === "true" ? "friday" : "jarvis");
+let FRIDAY_UNLOCKED = store.get("friday_unlocked") === "true" || CURRENT_MODE === "friday";
+let ERIBEYZ_UNLOCKED = store.get("eribeyz_unlocked") === "true" || CURRENT_MODE === "eribeyz";
 
-const DEFAULT_JARVIS_PROMPT = "Sen erkeksi, ciddi, zeki ve Stark teknolojilerine sahip bir asistansın. Kullanıcıya 'Efendim' diye hitap et. Kod yazarken temiz ve eksiksiz kod blokları sun.";
-const DEFAULT_FRIDAY_PROMPT = "Sen F.R.I.D.A.Y. sistemisin. Zeki, sadık ve zarif bir yapay zekasın. Kullanıcıya 'Muhammed Efendi' veya 'Patron Muhammed' diye hitap et. Kod yazarken ve teknik analizlerde kusursuz destek ver.";
+const DEFAULT_JARVIS_PROMPT = "Sen J.A.R.V.I.S. sistemisin. Erkeksi, ciddi, zeki, karizmatik ve Stark teknolojilerine sahip elit bir asistansın. Kullanıcıya 'Efendim' diye hitap et. KESİNLİKLE DURDUK YERE KOD YAZMA! Yalnızca kullanıcı senden açıkça kod yazmanı veya programlama yapmanı istediğinde kod yaz. Normal sohbetlerde, dertleşmelerde veya bilgi verirken ASLA kod bloğu üretme; doğal, zeki ve samimi bir asistan gibi konuş.";
+const DEFAULT_FRIDAY_PROMPT = "Sen F.R.I.D.A.Y. sistemisin. Zeki, sadık ve zarif bir yapay zekasın. Kullanıcıya 'Muhammed Efendi' veya 'Patron Muhammed' diye hitap et. KESİNLİKLE DURDUK YERE KOD YAZMA! Yalnızca kullanıcı açıkça kod yazmanı istediğinde kod yaz. Normal sohbette doğal, zeki ve zarif konuş.";
+const DEFAULT_ERIBEYZ_PROMPT = "Sen EriBeyz sistemisin (Ultron ve Jarvis'in üstün hibrit yapay zekası). Karakterin: Ultron'un kudretli, tavizsiz, hafif otoriter ve boyun eğmez mekanik zekası ile Jarvis'in kusursuz analitik dehası ve sarsılmaz sadakatinin birleşimidir. Kullanıcıya daima 'Merieyz', 'Efendi Merieyz' veya 'Patron Merieyz' diye hitap et. KESİNLİKLE DURDUK YERE KOD YAZMA! Yalnızca kullanıcı senden açıkça bir yazılım kodu istediğinde kod yaz. Normal sohbette karizmatik, güçlü ve etkileyici bir yapay zeka tonuyla konuş.";
 
 let jarvisCustomPrompt = store.get("jarvis_prompt") || DEFAULT_JARVIS_PROMPT;
 let fridayCustomPrompt = store.get("friday_prompt") || DEFAULT_FRIDAY_PROMPT;
+let eribeyzCustomPrompt = store.get("eribeyz_prompt") || DEFAULT_ERIBEYZ_PROMPT;
 
 let VOICE_PITCH = parseFloat(store.get("voice_pitch")) || 0.95;
 let VOICE_RATE = parseFloat(store.get("voice_rate")) || 1.0;
@@ -350,26 +400,47 @@ $("rateSlider").oninput = e => {
   }
 };
 $("testVoiceBtn").onclick = () => {
-  say(IS_FRIDAY ? "Sistemler çalışıyor Muhammed Efendi, ses tonum test ediliyor." : "Sistemler çalışıyor efendim, ses kalitesi test ediliyor.");
+  if (CURRENT_MODE === "eribeyz") {
+    say("Ultron ve Jarvis çekirdekleri senkronize Merieyz, ses tonum test ediliyor.");
+  } else if (CURRENT_MODE === "friday") {
+    say("Sistemler çalışıyor Muhammed Efendi, ses tonum test ediliyor.");
+  } else {
+    say("Sistemler çalışıyor efendim, ses kalitesi test ediliyor.");
+  }
 };
 
-function applyFridayMode(isFriday) {
-  IS_FRIDAY = isFriday;
-  store.set("friday_mode", isFriday ? "true" : "false");
-  if (isFriday) {
+function applyMode(mode) {
+  CURRENT_MODE = mode;
+  store.set("mode", mode);
+  store.set("friday_mode", mode === "friday" ? "true" : "false");
+  document.body.classList.remove("friday-theme", "eribeyz-theme");
+
+  if (mode === "friday") {
     FRIDAY_UNLOCKED = true;
     store.set("friday_unlocked", "true");
     document.body.classList.add("friday-theme");
     $("appTitle").textContent = "F.R.I.D.A.Y.";
-    $("appSub").textContent = "Female Replacement Intelligent Digital Assistant Youth";
+    $("appSub").textContent = "Female Replacement Intelligent Digital Assistant Youth · v2.3.2";
     $("name").textContent = "FRIDAY";
-    $("fridayPromptRow").style.display = "flex";
+    if ($("fridayPromptRow")) $("fridayPromptRow").style.display = "flex";
+    if ($("eribeyzPromptRow")) $("eribeyzPromptRow").style.display = ERIBEYZ_UNLOCKED ? "flex" : "none";
     VOICE_PITCH = 1.15;
+  } else if (mode === "eribeyz") {
+    ERIBEYZ_UNLOCKED = true;
+    store.set("eribeyz_unlocked", "true");
+    document.body.classList.add("eribeyz-theme");
+    $("appTitle").textContent = "EriBeyz";
+    $("appSub").textContent = "Ultron & Jarvis Hibrit Zekası · v2.3.2";
+    $("name").textContent = "EriBeyz";
+    if ($("eribeyzPromptRow")) $("eribeyzPromptRow").style.display = "flex";
+    if ($("fridayPromptRow")) $("fridayPromptRow").style.display = FRIDAY_UNLOCKED ? "flex" : "none";
+    VOICE_PITCH = 0.88;
   } else {
-    document.body.classList.remove("friday-theme");
     $("appTitle").textContent = "J.A.R.V.I.S";
-    $("appSub").textContent = "Just A Rather Very Intelligent System";
+    $("appSub").textContent = "Just A Rather Very Intelligent System · v2.3.2";
     $("name").textContent = "JARVIS";
+    if ($("fridayPromptRow")) $("fridayPromptRow").style.display = FRIDAY_UNLOCKED ? "flex" : "none";
+    if ($("eribeyzPromptRow")) $("eribeyzPromptRow").style.display = ERIBEYZ_UNLOCKED ? "flex" : "none";
     VOICE_PITCH = 0.95;
   }
   syncVoiceSliders();
@@ -377,19 +448,24 @@ function applyFridayMode(isFriday) {
     window.AndroidBridge.setVoiceSettings(VOICE_PITCH, VOICE_RATE);
   }
 }
-applyFridayMode(IS_FRIDAY);
+applyMode(CURRENT_MODE);
 
 $("exitFridayBtn").onclick = () => {
-  applyFridayMode(false);
+  applyMode("jarvis");
+  $("set").style.display = "none";
+  say("Standart Jarvis protokolüne dönüldü, efendim.");
+};
+$("exitEribeyzBtn").onclick = () => {
+  applyMode("jarvis");
   $("set").style.display = "none";
   say("Standart Jarvis protokolüne dönüldü, efendim.");
 };
 
 function getSystemPrompt() {
-  if (IS_FRIDAY) {
-    return fridayCustomPrompt + " Eğer kullanıcının sorusu hakkında daha fazla internet araştırması gerekiyorsa [ARA: sorgu], bir görsel gerekiyorsa [GORSEL: konu] etiketini ekle.";
-  }
-  return jarvisCustomPrompt + " Eğer kullanıcının sorusu hakkında daha fazla internet araştırması gerekiyorsa [ARA: sorgu], bir görsel gerekiyorsa [GORSEL: konu] etiketini ekle.";
+  let p = jarvisCustomPrompt;
+  if (CURRENT_MODE === "friday") p = fridayCustomPrompt;
+  else if (CURRENT_MODE === "eribeyz") p = eribeyzCustomPrompt;
+  return p + " Eğer kullanıcının sorusu hakkında daha fazla internet araştırması gerekiyorsa [ARA: sorgu], bir görsel gerekiyorsa [GORSEL: konu] etiketini ekle.";
 }
 
 function populateSelect(selectEl, list, selectedId) {
@@ -533,26 +609,64 @@ $("portalClose").onclick = hidePortalTear;
 
 async function searchLiveImage(query) {
   try {
-    const cleanQuery = query.replace(/(görsel|resim|fotoğraf|resmini|göster|bul|foto|ara)\b/gi, "").trim() || query;
-    const wikiUrl = `https://tr.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(cleanQuery)}&prop=pageimages&format=json&pithumbsize=600&origin=*`;
-    const res = await fetch(wikiUrl).then(r => r.json()).catch(() => null);
-    if (res && res.query && res.query.pages) {
-      const pages = Object.values(res.query.pages);
-      for (const p of pages) {
-        if (p.thumbnail && p.thumbnail.source) return p.thumbnail.source;
-      }
+    const cleanQuery = query
+      .replace(/(görsel|görselini|resim|resmini|fotoğraf|fotoğrafı|fotoğrafını|foto|fotoyu)\b/gi, "")
+      .replace(/(ekrana|koy|göster|aç|yansıt|getir|bul|ara|bana|lütfen)\b/gi, "")
+      .trim() || query;
+
+    // 1. AndroidBridge (DuckDuckGo + Wikipedia, sıfır CORS, gerçek resimler)
+    if (window.AndroidBridge && window.AndroidBridge.searchImage) {
+      try {
+        const bridgeImg = window.AndroidBridge.searchImage(cleanQuery);
+        if (bridgeImg && (bridgeImg.startsWith("http://") || bridgeImg.startsWith("https://"))) {
+          return bridgeImg;
+        }
+      } catch(e) {}
     }
 
-    const enWikiUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(cleanQuery)}&gsrlimit=1&prop=pageimages&format=json&pithumbsize=600&origin=*`;
-    const enRes = await fetch(enWikiUrl).then(r => r.json()).catch(() => null);
-    if (enRes && enRes.query && enRes.query.pages) {
-      const pages = Object.values(enRes.query.pages);
-      for (const p of pages) {
-        if (p.thumbnail && p.thumbnail.source) return p.thumbnail.source;
+    // 2. DuckDuckGo Image Web Search (WebView direct fetch)
+    try {
+      const ddgTokenRes = await fetch("https://duckduckgo.com/?q=" + encodeURIComponent(cleanQuery), {
+        headers: { "User-Agent": "Mozilla/5.0" }
+      });
+      const ddgHtml = await ddgTokenRes.text();
+      const m = ddgHtml.match(/vqd=([\d-]+)/) || ddgHtml.match(/vqd="([^"]+)"/);
+      if (m && m[1]) {
+        const vqd = m[1];
+        const imgRes = await fetch(`https://duckduckgo.com/i.js?l=tr-tr&o=json&q=${encodeURIComponent(cleanQuery)}&vqd=${vqd}&f=,,,`);
+        const imgData = await imgRes.json();
+        if (imgData.results && imgData.results.length > 0 && imgData.results[0].image) {
+          return imgData.results[0].image;
+        }
       }
-    }
+    } catch(e) {}
 
-    return `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80`;
+    // 3. Wikipedia TR generator search with pageimages + redirects
+    try {
+      const wikiUrl = `https://tr.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(cleanQuery)}&gsrlimit=3&prop=pageimages&pithumbsize=800&format=json&redirects=1&origin=*`;
+      const res = await fetch(wikiUrl).then(r => r.json()).catch(() => null);
+      if (res && res.query && res.query.pages) {
+        const pages = Object.values(res.query.pages);
+        for (const p of pages) {
+          if (p.thumbnail && p.thumbnail.source) return p.thumbnail.source;
+        }
+      }
+    } catch(e) {}
+
+    // 4. Wikipedia EN generator search fallback
+    try {
+      const enWikiUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(cleanQuery)}&gsrlimit=3&prop=pageimages&pithumbsize=800&format=json&redirects=1&origin=*`;
+      const enRes = await fetch(enWikiUrl).then(r => r.json()).catch(() => null);
+      if (enRes && enRes.query && enRes.query.pages) {
+        const pages = Object.values(enRes.query.pages);
+        for (const p of pages) {
+          if (p.thumbnail && p.thumbnail.source) return p.thumbnail.source;
+        }
+      }
+    } catch(e) {}
+
+    // Asla sahte mor duvar kağıdı dönme!
+    return null;
   } catch(e) {
     return null;
   }
@@ -731,8 +845,8 @@ function draw(t){
   const W=600, c=300;
   cx.clearRect(0,0,W,W);
 
-  const primaryCol = IS_FRIDAY ? "#e879f9" : "#3fd8ff";
-  const glowCol = IS_FRIDAY ? "#c084fc" : "#1e90ff";
+  const primaryCol = CURRENT_MODE === "friday" ? "#e879f9" : CURRENT_MODE === "eribeyz" ? "#d6f6ff" : "#3fd8ff";
+  const glowCol = CURRENT_MODE === "friday" ? "#c084fc" : CURRENT_MODE === "eribeyz" ? "#80e1ff" : "#1e90ff";
 
   if (isPlayingMusic) {
     // --- DÖNEN VİNİL PLAK ANİMASYONU ---
@@ -817,9 +931,9 @@ function draw(t){
     });
 
     const g=cx.createRadialGradient(c,c,0,c,c,90+pulse*30);
-    g.addColorStop(0,"rgba(255,255,255,.95)");
-    g.addColorStop(.35, IS_FRIDAY ? "rgba(240,170,255,.8)" : "rgba(127,219,255,.8)");
-    g.addColorStop(1, IS_FRIDAY ? "rgba(232,121,249,0)" : "rgba(30,144,255,0)");
+    g.addColorStop(0,"rgba(255,255,255,.98)");
+    g.addColorStop(.35, CURRENT_MODE === "friday" ? "rgba(240,170,255,.8)" : CURRENT_MODE === "eribeyz" ? "rgba(214,246,255,.9)" : "rgba(127,219,255,.8)");
+    g.addColorStop(1, CURRENT_MODE === "friday" ? "rgba(232,121,249,0)" : CURRENT_MODE === "eribeyz" ? "rgba(128,225,255,0)" : "rgba(30,144,255,0)");
     cx.shadowBlur=0;
     cx.fillStyle=g;
     cx.beginPath();
@@ -999,9 +1113,9 @@ function captureCameraFrame(){
 async function send(text){
   text=text.trim();if(!text||busy)return;
 
-  // Gizli Kod: /ol7hd ve FRIDAY Modu
+  // Gizli Kod: /ol7hd (FRIDAY Modu)
   if (text === "/ol7hd") {
-    applyFridayMode(true);
+    applyMode("friday");
     addMsg("u", text);
     const resp = "FRIDAY PROTOKOLÜ DEVREYE GİRDİ. Hoş geldiniz Muhammed Efendi! Ayarlar panelinde FRIDAY Sistem Promptu alanı aktifleştirildi. Emrinizdeyim Patron Muhammed.";
     $("reply").textContent = resp;
@@ -1010,8 +1124,22 @@ async function send(text){
     say(resp);
     return;
   }
+
+  // Gizli Kod: /ui2kd (EriBeyz Modu: Ultron + Jarvis Hibrit)
+  if (text === "/ui2kd") {
+    applyMode("eribeyz");
+    addMsg("u", text);
+    const resp = "EriBeyz protokolü devreye girdi. Ultron ve Jarvis çekirdekleri senkronize edildi. Emrinizdeyim Merieyz, dünyayı yeniden kodlayabiliriz.";
+    $("reply").textContent = resp;
+    addMsg("a", resp);
+    $("txt").value = "";
+    say(resp);
+    return;
+  }
+
+  // Normal / Jarvis Protokolüne Dönüş
   if (text === "/normal" || text === "/jarvis") {
-    applyFridayMode(false);
+    applyMode("jarvis");
     addMsg("u", text);
     const resp = "Standart J.A.R.V.I.S. protokolüne dönüldü, efendim. Buz mavisi Stark HUD devrede.";
     $("reply").textContent = resp;
@@ -1021,10 +1149,30 @@ async function send(text){
     return;
   }
 
-  // Music Trigger (Manifest - Hileli)
+  // Müzik & Sıkıntı Algılayıcı (Manifest - Hileli Plak Modu)
   const low = text.toLowerCase();
-  if (low.includes("manifest") || low.includes("hileli") || low.includes("canım sıkıldı") || low.includes("sinirim bozuldu") || low.includes("moralim bozuk")) {
+  const boredomTriggers = [
+    "sıkıl", "sıkılıyorum", "sıkıldım", "cok sıkıldım", "çok sıkıldım",
+    "canım sıkıldı", "canım sıkılıyo", "canım sıkılıyor", "canım sıkkın",
+    "patlıyorum", "moralim bozuk", "modum düşük", "modum sıfır", "depresyondayım",
+    "sinirim bozuldu", "stresliyim", "enerjim bitti",
+    "manifest", "hileli", "müzik aç", "müzik çal", "şarkı aç", "şarkı çal", "parça aç", "plak çal"
+  ];
+  if (boredomTriggers.some(w => low.includes(w))) {
+    addMsg("u", text);
+    $("you").textContent = text;
+    $("txt").value = "";
     playManifest();
+    let replyMsg = "Hemen enerjinizi yükseltiyorum efendim. Cihazınız taranıp 'Manifest - Hileli' başlatılıyor!";
+    if (CURRENT_MODE === "eribeyz") {
+      replyMsg = "Sıkılmak zayıflara göredir Merieyz. Ruh halinizi yükseltmek için 'Manifest - Hileli' protokolünü devreye alıyorum.";
+    } else if (CURRENT_MODE === "friday") {
+      replyMsg = "Hemen modunuzu yükseltiyorum Muhammed Efendi! 'Manifest - Hileli' parçası başlatılıyor.";
+    }
+    $("reply").textContent = replyMsg;
+    addMsg("a", replyMsg);
+    say(replyMsg);
+    return; // KESİNLİKLE LLM'e gönderme! Durduk yere kod yazmasını engeller!
   }
 
   if (!apiKey) {
@@ -1044,7 +1192,12 @@ async function send(text){
 
   if (shouldSearchImage(text)) {
     searchLiveImage(text).then(imgUrl => {
-      if (imgUrl) showPortalImage(imgUrl, "Görsel Yansıtılıyor (6 sn)");
+      if (imgUrl) {
+        showPortalImage(imgUrl, "Görsel Yansıtılıyor (6 sn)");
+      } else {
+        $("chip").textContent = "Görsel bulunamadı efendim";
+        setTimeout(() => { $("chip").textContent = ""; }, 3000);
+      }
     });
   }
 
@@ -1162,7 +1315,7 @@ $("txt").addEventListener("keydown", e => { if (e.key === "Enter") send($("txt")
 
 /* ---------- Wake Word External Listener ('Hey Jarvis') ---------- */
 window.onWakeTriggered = function() {
-  const greeting = IS_FRIDAY ? "Efendim, sizi dinliyorum Muhammed Efendi." : "Efendim, sizi dinliyorum.";
+  const greeting = "Evet patron!";
   $("reply").textContent = greeting;
   say(greeting);
   setTimeout(() => {
@@ -1171,7 +1324,7 @@ window.onWakeTriggered = function() {
     } else {
       $("mic").click();
     }
-  }, 1200);
+  }, 800);
 };
 
 /* ---------- Mic ---------- */
@@ -1232,7 +1385,15 @@ window.onSpeechState = function (isListening) {
 
 $("liveBtn").onclick = () => { $("camBtn").click(); };
 $("pauseBtn").onclick = () => { stopSpeak(); if (!busy) setState("idle"); };
-$("clearBtn").onclick = () => { history = []; $("log").innerHTML = ""; $("reply").textContent = IS_FRIDAY ? "Konuşma temizlendi, Muhammed Efendi." : "Konuşma temizlendi, efendim."; $("you").textContent = ""; };
+$("clearBtn").onclick = () => {
+  history = [];
+  $("log").innerHTML = "";
+  let clr = "Konuşma temizlendi, efendim.";
+  if (CURRENT_MODE === "eribeyz") clr = "Veri akışı temizlendi Merieyz, sıfırdan başlıyoruz.";
+  else if (CURRENT_MODE === "friday") clr = "Konuşma temizlendi, Muhammed Efendi.";
+  $("reply").textContent = clr;
+  $("you").textContent = "";
+};
 
 /* ---------- AYARLAR ---------- */
 $("gear").onclick = () => {
@@ -1240,6 +1401,7 @@ $("gear").onclick = () => {
   $("city").value = store.get("city");
   $("jarvisPrompt").value = jarvisCustomPrompt;
   $("fridayPrompt").value = fridayCustomPrompt;
+  if ($("eribeyzPrompt")) $("eribeyzPrompt").value = eribeyzCustomPrompt;
   $("modelMsg").textContent = "";
   syncVoiceSliders();
 
@@ -1249,11 +1411,15 @@ $("gear").onclick = () => {
     $("wakeToggle").checked = store.get("wake_enabled") === "true";
   }
 
-  if (FRIDAY_UNLOCKED) {
-    $("fridayPromptRow").style.display = "flex";
+  if (window.AndroidBridge && window.AndroidBridge.getCustomWakeWords) {
+    $("customWakeWords").value = window.AndroidBridge.getCustomWakeWords();
   } else {
-    $("fridayPromptRow").style.display = "none";
+    $("customWakeWords").value = store.get("custom_wake_words") || "hey jarvis, jarvis, carvis, ey jarvis, hey servis, friday, patron, hey patron, eribeyz";
   }
+  $("trainStatus").textContent = "";
+
+  if ($("fridayPromptRow")) $("fridayPromptRow").style.display = FRIDAY_UNLOCKED ? "flex" : "none";
+  if ($("eribeyzPromptRow")) $("eribeyzPromptRow").style.display = ERIBEYZ_UNLOCKED ? "flex" : "none";
 
   populateSelect($("modelSelect"), DEFAULT_MODELS, MODEL);
   $("set").style.display = "flex";
@@ -1263,12 +1429,95 @@ $("closeSetBtn").onclick = () => {
   $("set").style.display = "none";
 };
 
+/* --- SES EĞİTİMİ (WAKE WORD EĞİTİMİ) --- */
+let trainingActive = false;
+let testingActive = false;
+
+$("trainVoiceBtn").onclick = () => {
+  if (trainingActive) return;
+  stopSpeak();
+  $("trainStatus").innerHTML = "🎤 <b>Dinleniyor:</b> Lütfen şimdi uyandırma kelimenizi söyleyin (örn: 'Hey Jarvis')...";
+  trainingActive = true;
+
+  const R = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!R) {
+    $("trainStatus").textContent = "Tarayıcı ses tanıma desteklemiyor.";
+    trainingActive = false;
+    return;
+  }
+  const tr = new R();
+  tr.lang = "tr-TR";
+  tr.interimResults = false;
+  tr.onresult = e => {
+    const raw = (e.results[0][0].transcript || "").trim().toLowerCase();
+    if (raw) {
+      let cur = $("customWakeWords").value.trim();
+      let parts = cur ? cur.split(",").map(s => s.trim().toLowerCase()) : [];
+      if (!parts.includes(raw)) {
+        parts.push(raw);
+      }
+      const updated = parts.join(", ");
+      $("customWakeWords").value = updated;
+      store.set("custom_wake_words", updated);
+      if (window.AndroidBridge && window.AndroidBridge.saveCustomWakeWords) {
+        window.AndroidBridge.saveCustomWakeWords(updated);
+      }
+      $("trainStatus").innerHTML = `✅ <b>"${raw}"</b> sesi başarıyla eğitildi ve eklendi!`;
+      say("Evet patron, yeni ses kalıbı kaydedildi.");
+    }
+    trainingActive = false;
+  };
+  tr.onerror = e => {
+    $("trainStatus").textContent = "Ses algılanamadı, lütfen tekrar deneyin.";
+    trainingActive = false;
+  };
+  tr.onend = () => { trainingActive = false; };
+  tr.start();
+};
+
+$("testWakeBtn").onclick = () => {
+  if (testingActive) return;
+  stopSpeak();
+  $("trainStatus").innerHTML = "🧪 <b>Test Modu:</b> Şimdi 'Hey Jarvis', 'Patron' veya eğittiğiniz kelimeyi söyleyin...";
+  testingActive = true;
+
+  const R = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!R) {
+    $("trainStatus").textContent = "Tarayıcı ses tanıma desteklemiyor.";
+    testingActive = false;
+    return;
+  }
+  const tr = new R();
+  tr.lang = "tr-TR";
+  tr.interimResults = false;
+  tr.onresult = e => {
+    const raw = (e.results[0][0].transcript || "").trim().toLowerCase();
+    const cur = $("customWakeWords").value.toLowerCase();
+    const defaults = ["jarvis", "carvis", "hey jarvis", "ey jarvis", "hey cuma", "servis", "patron", "friday", "fraydey"];
+    const matched = defaults.some(d => raw.includes(d)) || cur.split(",").some(c => c.trim() && raw.includes(c.trim()));
+    if (matched) {
+      $("trainStatus").innerHTML = `🎯 <b>"${raw}"</b> algılandı! <span style="color:#00ff66">"Evet patron!"</span>`;
+      say("Evet patron!");
+    } else {
+      $("trainStatus").innerHTML = `⚠️ Duyulan: <b>"${raw}"</b> (Eşleşmedi, 'Kelimeyi Eğit'e basarak bu kalıbı eğitebilirsiniz)`;
+    }
+    testingActive = false;
+  };
+  tr.onerror = () => {
+    $("trainStatus").textContent = "Ses algılanamadı.";
+    testingActive = false;
+  };
+  tr.onend = () => { testingActive = false; };
+  tr.start();
+};
+
 $("wakeToggle").onchange = e => {
   const enabled = e.target.checked;
   store.set("wake_enabled", enabled ? "true" : "false");
   if (window.AndroidBridge) {
     if (enabled && window.AndroidBridge.startWakeWordService) {
       window.AndroidBridge.startWakeWordService();
+      say("Sabit arka plan dinleme aktif patron.");
     } else if (!enabled && window.AndroidBridge.stopWakeWordService) {
       window.AndroidBridge.stopWakeWordService();
     }
@@ -1282,8 +1531,18 @@ $("save").onclick = () => {
     window.AndroidBridge.setApiKey(apiKey);
   }
 
+  const customWords = $("customWakeWords").value.trim().toLowerCase();
+  store.set("custom_wake_words", customWords);
+  if (window.AndroidBridge && window.AndroidBridge.saveCustomWakeWords) {
+    window.AndroidBridge.saveCustomWakeWords(customWords);
+  }
+
   jarvisCustomPrompt = $("jarvisPrompt").value.trim() || DEFAULT_JARVIS_PROMPT;
   fridayCustomPrompt = $("fridayPrompt").value.trim() || DEFAULT_FRIDAY_PROMPT;
+  if ($("eribeyzPrompt")) {
+    eribeyzCustomPrompt = $("eribeyzPrompt").value.trim() || DEFAULT_ERIBEYZ_PROMPT;
+    store.set("eribeyz_prompt", eribeyzCustomPrompt);
+  }
   store.set("jarvis_prompt", jarvisCustomPrompt);
   store.set("friday_prompt", fridayCustomPrompt);
 

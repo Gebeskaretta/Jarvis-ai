@@ -7,18 +7,25 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 public class WakeWordService extends Service {
     public static final String ACTION_START = "com.mico.jarvis.START_WAKE_SERVICE";
@@ -31,24 +38,65 @@ public class WakeWordService extends Service {
     private Handler handler;
     private boolean isListening = false;
     private boolean shouldRun = true;
+    private int consecutiveErrors = 0;
+    private long lastResultTime = 0;
+
+    private PowerManager.WakeLock wakeLock;
+    private TextToSpeech tts;
+    private boolean ttsReady = false;
+    private SharedPreferences prefs;
+
+    // Sabit varsayılan algılama kalıpları
+    private static final Set<String> DEFAULT_PATTERNS = new HashSet<>(Arrays.asList(
+            "hey jarvis", "jarvis", "carvis", "hey carvis", "ey jarvis", "ey carvis",
+            "hey cuma", "hey servis", "hey cemis", "hey camis", "çarvis", "canvis",
+            "friday", "hey friday", "fraydey", "fraydi", "patron", "hey patron", "alo jarvis"
+    ));
 
     @Override
     public void onCreate() {
         super.onCreate();
         handler = new Handler(Looper.getMainLooper());
-        createNotificationChannel();
+        prefs = getSharedPreferences("jarvis", MODE_PRIVATE);
 
+        // CPU'nun uykuya geçmesini önlemek için WakeLock
+        try {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (pm != null) {
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Jarvis:WakeWordLock");
+                wakeLock.acquire();
+            }
+        } catch (Exception ignored) {}
+
+        // Anında sesli onay için TTS ("Evet patron")
+        initTts();
+
+        createNotificationChannel();
         initSpeechRecognizer();
+        startWatchdog();
+    }
+
+    private void initTts() {
+        tts = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int res = tts.setLanguage(new Locale("tr", "TR"));
+                if (res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED) {
+                    ttsReady = true;
+                    tts.setPitch(0.95f);
+                    tts.setSpeechRate(1.05f);
+                }
+            }
+        });
     }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    "J.A.R.V.I.S. Arka Plan Dinleme",
+                    "J.A.R.V.I.S. Sabit Dinleme",
                     NotificationManager.IMPORTANCE_LOW
             );
-            channel.setDescription("Hey Jarvis ses komutunu arka planda dinler");
+            channel.setDescription("Hey Jarvis ses komutunu arka planda kesintisiz dinler");
             channel.setShowBadge(false);
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             if (nm != null) {
@@ -76,8 +124,8 @@ public class WakeWordService extends Service {
             builder = new Notification.Builder(this);
         }
 
-        builder.setContentTitle("J.A.R.V.I.S. Arka Planda Aktif")
-                .setContentText("'Hey Jarvis' veya 'Hey Friday' diyerek uyandırabilirsiniz")
+        builder.setContentTitle("J.A.R.V.I.S. Sabit Dinliyor 🎙")
+                .setContentText("'Hey Jarvis', 'Patron' veya eğittiğiniz kelimeleri dinliyor...")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setOngoing(true);
 
@@ -94,16 +142,24 @@ public class WakeWordService extends Service {
             return;
         }
 
+        try {
+            if (speechRecognizer != null) {
+                speechRecognizer.destroy();
+            }
+        } catch (Exception ignored) {}
+
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "tr-TR");
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
 
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle params) {
                 isListening = true;
+                consecutiveErrors = 0;
             }
 
             @Override
@@ -125,35 +181,38 @@ public class WakeWordService extends Service {
                 isListening = false;
                 if (!shouldRun) return;
 
-                // Sessizlik ve timeout normaldir, küçük bir gecikmeyle döngüyü sürdür
-                long delay = 350;
-                if (error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY || error == SpeechRecognizer.ERROR_CLIENT) {
-                    delay = 1000;
+                consecutiveErrors++;
+
+                // Sürekli hatalarda veya istemci kilitlenmelerinde recognizer'ı tazeleyerek yeniden kur
+                if (consecutiveErrors >= 3 || error == SpeechRecognizer.ERROR_CLIENT || error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY) {
+                    consecutiveErrors = 0;
+                    handler.postDelayed(() -> recreateRecognizer(), 500);
+                    return;
                 }
-                scheduleRestart(delay);
+
+                // Normal sessizlik (ERROR_NO_MATCH, ERROR_SPEECH_TIMEOUT) -> anında yeniden başlat
+                scheduleRestart(200);
             }
 
             @Override
             public void onResults(Bundle results) {
                 isListening = false;
+                lastResultTime = System.currentTimeMillis();
+
                 if (results != null) {
                     ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                    if (matches != null && !matches.isEmpty()) {
+                    if (matches != null) {
                         for (String match : matches) {
-                            String spokenText = match.toLowerCase();
-                            if (spokenText.contains("hey jarvis") || spokenText.contains("hey carvis") ||
-                                spokenText.contains("jarvis") || spokenText.contains("hey friday") ||
-                                spokenText.contains("friday")) {
-
-                                wakeUpApp();
-                                break;
+                            if (checkMatch(match)) {
+                                wakeUpApp(match);
+                                return;
                             }
                         }
                     }
                 }
 
                 if (shouldRun) {
-                    scheduleRestart(300);
+                    scheduleRestart(180);
                 }
             }
 
@@ -161,13 +220,12 @@ public class WakeWordService extends Service {
             public void onPartialResults(Bundle partialResults) {
                 if (partialResults != null) {
                     ArrayList<String> matches = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                    if (matches != null && !matches.isEmpty()) {
-                        String spokenText = matches.get(0).toLowerCase();
-                        if (spokenText.contains("hey jarvis") || spokenText.contains("hey carvis") ||
-                            spokenText.contains("jarvis") || spokenText.contains("hey friday") ||
-                            spokenText.contains("friday")) {
-
-                            wakeUpApp();
+                    if (matches != null) {
+                        for (String match : matches) {
+                            if (checkMatch(match)) {
+                                wakeUpApp(match);
+                                return;
+                            }
                         }
                     }
                 }
@@ -178,17 +236,76 @@ public class WakeWordService extends Service {
         });
     }
 
-    private void wakeUpApp() {
+    private void recreateRecognizer() {
+        if (!shouldRun) return;
+        try {
+            if (speechRecognizer != null) {
+                speechRecognizer.destroy();
+                speechRecognizer = null;
+            }
+        } catch (Exception ignored) {}
+        initSpeechRecognizer();
+        scheduleRestart(250);
+    }
+
+    // Akıllı ve Eğitilebilir Eşleşme Kontrolü
+    private boolean checkMatch(String rawText) {
+        if (rawText == null || rawText.trim().isEmpty()) return false;
+        String text = rawText.toLowerCase().trim();
+
+        // 1. Varsayılan kalıplar
+        for (String def : DEFAULT_PATTERNS) {
+            if (text.contains(def)) return true;
+        }
+
+        // 2. Kullanıcının Eğittiği Özel Kelimeler (SharedPreferences)
+        String customStr = prefs.getString("custom_wake_words", "");
+        if (!customStr.isEmpty()) {
+            String[] customArr = customStr.split(",");
+            for (String cWord : customArr) {
+                String trimmed = cWord.trim().toLowerCase();
+                if (!trimmed.isEmpty() && text.contains(trimmed)) {
+                    return true;
+                }
+            }
+        }
+
+        // 3. Fonetik Benzerlik (Ses benzeşimi: "arvis", "ervis", "arwis", "carvis", "patron")
+        if (text.contains("arvis") || text.contains("ervis") || text.contains("arwis") ||
+            text.contains("carvis") || text.contains("servis") || text.contains("patron") ||
+            text.contains("fraydey") || text.contains("cumartesi") && text.contains("hey")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // Uyandırma tetiklendiğinde: HEMEN "Evet patron!" de ve uygulamayı öne getir
+    private synchronized void wakeUpApp(String detectedWord) {
+        // Çift tetiklemeyi önle
+        lastResultTime = System.currentTimeMillis();
+
+        // 1. SESLİ GERİ BİLDİRİM: "Evet patron!"
+        if (ttsReady && tts != null) {
+            tts.speak("Evet patron!", TextToSpeech.QUEUE_FLUSH, null, "wake_ack");
+        }
+
+        // 2. Toast Bildirimi
+        handler.post(() -> {
+            Toast.makeText(WakeWordService.this, "Evet patron! (" + detectedWord + ")", Toast.LENGTH_SHORT).show();
+        });
+
+        // 3. MainActivity'yi öne getir
         Intent launchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
         if (launchIntent != null) {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             launchIntent.putExtra("WAKE_TRIGGER", true);
+            launchIntent.putExtra("WAKE_WORD", detectedWord);
             startActivity(launchIntent);
-
-            handler.post(() -> {
-                Toast.makeText(WakeWordService.this, "Efendim, sizi dinliyorum.", Toast.LENGTH_SHORT).show();
-            });
         }
+
+        // Kısa bir beklemeden sonra arka planda dinlemeyi tekrar başlat
+        scheduleRestart(2500);
     }
 
     private void scheduleRestart(long delayMs) {
@@ -207,10 +324,25 @@ public class WakeWordService extends Service {
                     isListening = true;
                 }
             } catch (Exception e) {
-                handler.postDelayed(this, 1200);
+                recreateRecognizer();
             }
         }
     };
+
+    // Watchdog: Dinleme donarsa veya recognizer takılırsa otomatik uyandırır (Sabit Dinleme Garantisi)
+    private void startWatchdog() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!shouldRun) return;
+                long now = System.currentTimeMillis();
+                if (!isListening && (now - lastResultTime > 5000)) {
+                    recreateRecognizer();
+                }
+                handler.postDelayed(this, 5000);
+            }
+        }, 5000);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -221,6 +353,8 @@ public class WakeWordService extends Service {
         }
 
         shouldRun = true;
+        lastResultTime = System.currentTimeMillis();
+
         Notification notification = buildNotification();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE);
@@ -239,13 +373,24 @@ public class WakeWordService extends Service {
         super.onDestroy();
         shouldRun = false;
         if (handler != null) {
-            handler.removeCallbacks(restartRunnable);
+            handler.removeCallbacksAndMessages(null);
         }
         if (speechRecognizer != null) {
             try {
                 speechRecognizer.destroy();
             } catch (Exception ignored) {}
             speechRecognizer = null;
+        }
+        if (tts != null) {
+            try {
+                tts.shutdown();
+            } catch (Exception ignored) {}
+            tts = null;
+        }
+        if (wakeLock != null && wakeLock.isHeld()) {
+            try {
+                wakeLock.release();
+            } catch (Exception ignored) {}
         }
     }
 

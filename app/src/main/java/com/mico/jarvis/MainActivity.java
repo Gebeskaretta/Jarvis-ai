@@ -95,6 +95,8 @@ public class MainActivity extends Activity {
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
@@ -426,6 +428,18 @@ public class MainActivity extends Activity {
             return prefs.getBoolean("wake_service_enabled", false);
         }
 
+        @JavascriptInterface
+        public void saveCustomWakeWords(String words) {
+            if (words != null) {
+                prefs.edit().putString("custom_wake_words", words.trim().toLowerCase()).apply();
+            }
+        }
+
+        @JavascriptInterface
+        public String getCustomWakeWords() {
+            return prefs.getString("custom_wake_words", "hey jarvis, jarvis, carvis, ey jarvis, hey servis, friday, patron, hey patron");
+        }
+
         // --- REAL AUDIO SEARCH & PLAYBACK (Manifest - Hileli) ---
         @JavascriptInterface
         public boolean searchAndPlayManifest() {
@@ -512,6 +526,97 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public boolean isRealAudioPlaying() {
             return isAudioPlaying && mediaPlayer != null && mediaPlayer.isPlaying();
+        }
+
+        @JavascriptInterface
+        public String searchImage(String rawQuery) {
+            if (rawQuery == null || rawQuery.trim().isEmpty()) return "";
+            String query = rawQuery.trim();
+            // 1. DuckDuckGo Image Search
+            try {
+                String tokenUrl = "https://duckduckgo.com/?q=" + java.net.URLEncoder.encode(query, "UTF-8");
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) new java.net.URL(tokenUrl).openConnection();
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+                conn.setConnectTimeout(4500);
+                conn.setReadTimeout(4500);
+
+                java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                    if (sb.length() > 60000) break;
+                }
+                in.close();
+                conn.disconnect();
+
+                java.util.regex.Matcher m = java.util.regex.Pattern.compile("vqd=([\\d-]+)").matcher(sb.toString());
+                if (!m.find()) {
+                    m = java.util.regex.Pattern.compile("vqd=\"([^\"]+)\"").matcher(sb.toString());
+                }
+                if (m.find()) {
+                    String vqd = m.group(1);
+                    String imgApi = "https://duckduckgo.com/i.js?l=tr-tr&o=json&q=" + java.net.URLEncoder.encode(query, "UTF-8") + "&vqd=" + vqd + "&f=,,,";
+                    java.net.HttpURLConnection imgConn = (java.net.HttpURLConnection) new java.net.URL(imgApi).openConnection();
+                    imgConn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
+                    imgConn.setConnectTimeout(4500);
+                    imgConn.setReadTimeout(4500);
+
+                    java.io.BufferedReader imgIn = new java.io.BufferedReader(new java.io.InputStreamReader(imgConn.getInputStream()));
+                    StringBuilder imgSb = new StringBuilder();
+                    while ((line = imgIn.readLine()) != null) {
+                        imgSb.append(line);
+                    }
+                    imgIn.close();
+                    imgConn.disconnect();
+
+                    org.json.JSONObject obj = new org.json.JSONObject(imgSb.toString());
+                    org.json.JSONArray res = obj.optJSONArray("results");
+                    if (res != null && res.length() > 0) {
+                        for (int i = 0; i < Math.min(res.length(), 6); i++) {
+                            org.json.JSONObject item = res.getJSONObject(i);
+                            String imgUrl = item.optString("image");
+                            if (imgUrl != null && (imgUrl.startsWith("http://") || imgUrl.startsWith("https://"))) {
+                                return imgUrl;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+
+            // 2. Wikipedia generator search fallback
+            try {
+                String wikiUrl = "https://tr.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=" 
+                        + java.net.URLEncoder.encode(query, "UTF-8") + "&gsrlimit=3&prop=pageimages&pithumbsize=800&format=json&redirects=1";
+                java.net.HttpURLConnection wConn = (java.net.HttpURLConnection) new java.net.URL(wikiUrl).openConnection();
+                wConn.setRequestProperty("User-Agent", "Mozilla/5.0 (JarvisApp/2.3.2)");
+                wConn.setConnectTimeout(4500);
+                wConn.setReadTimeout(4500);
+                java.io.BufferedReader wIn = new java.io.BufferedReader(new java.io.InputStreamReader(wConn.getInputStream()));
+                StringBuilder wSb = new StringBuilder();
+                String line;
+                while ((line = wIn.readLine()) != null) wSb.append(line);
+                wIn.close();
+                wConn.disconnect();
+
+                org.json.JSONObject json = new org.json.JSONObject(wSb.toString());
+                org.json.JSONObject queryObj = json.optJSONObject("query");
+                if (queryObj != null) {
+                    org.json.JSONObject pages = queryObj.optJSONObject("pages");
+                    if (pages != null) {
+                        java.util.Iterator<String> keys = pages.keys();
+                        while (keys.hasNext()) {
+                            org.json.JSONObject page = pages.getJSONObject(keys.next());
+                            org.json.JSONObject thumb = page.optJSONObject("thumbnail");
+                            if (thumb != null && thumb.has("source")) {
+                                return thumb.getString("source");
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+
+            return "";
         }
     }
 
