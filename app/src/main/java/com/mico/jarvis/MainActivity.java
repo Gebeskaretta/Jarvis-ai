@@ -589,7 +589,7 @@ public class MainActivity extends Activity {
                 String wikiUrl = "https://tr.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=" 
                         + java.net.URLEncoder.encode(query, "UTF-8") + "&gsrlimit=3&prop=pageimages&pithumbsize=800&format=json&redirects=1";
                 java.net.HttpURLConnection wConn = (java.net.HttpURLConnection) new java.net.URL(wikiUrl).openConnection();
-                wConn.setRequestProperty("User-Agent", "Mozilla/5.0 (JarvisApp/2.3.2)");
+                wConn.setRequestProperty("User-Agent", "Mozilla/5.0 (JarvisApp/2.3.4)");
                 wConn.setConnectTimeout(4500);
                 wConn.setReadTimeout(4500);
                 java.io.BufferedReader wIn = new java.io.BufferedReader(new java.io.InputStreamReader(wConn.getInputStream()));
